@@ -1,9 +1,13 @@
 package main
 
 import (
-	"math/rand"
-	"time"
+	"fmt"
 )
+
+func main() {
+	name()
+	classe()
+}
 
 type Character struct {
 	Nom        string
@@ -14,19 +18,33 @@ type Character struct {
 	Inventaire []string
 }
 
-func randomClasse() string {
-	classes := []string{"Humain", "Loupgarou", "Hybride", "Nain", "Ange", "Démon"}
-	rand.Seed(time.Now().UnixNano())
-	return classes[rand.Intn(len(classes))]
+func name() string {
+	var i string
+
+	fmt.Print("Entrez le nom de votre personnage : ")
+	fmt.Scan(&i)
+	fmt.Println("Bienvenue dans notre monde", i)
+	return ""
 }
 
-func main() {
-	hero := Character{
-		Nom:        "Ynov",
-		Classe:     randomClasse(),
-		Niveau:     1,
-		MaxHP:      100,
-		HPactuel:   100,
-		Inventaire: []string{"Livre"},
+func classe() string {
+	var r int
+
+	fmt.Print("Choisissez votre classe : \n 1. Humain \n 2. Loupgarou \n 3. Hybride \n 4. Nain \n 5. Ange \n 6. Démon \n")
+	fmt.Scan(&r)
+	if r == 1 {
+		fmt.Println("Vous avez choisi la classe Humain")
+	} else if r == 2 {
+		fmt.Println("Vous avez choisi la classe Loupgarou")
+	} else if r == 3 {
+		fmt.Println("Vous avez choisi la classe Hybride")
+	} else if r == 4 {
+		fmt.Println("Vous avez choisi la classe Nain")
+	} else if r == 5 {
+		fmt.Println("Vous avez choisi la classe Ange")
+	} else if r == 6 {
+		fmt.Println("Vous avez choisi la classe Démon")
 	}
+
+	return ""
 }
