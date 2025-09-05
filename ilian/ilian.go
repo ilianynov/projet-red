@@ -23,7 +23,7 @@ func name() string {
 
 	fmt.Print("Entrez le nom de votre personnage : ")
 	fmt.Scan(&i)
-	fmt.Println("Bienvenue dans notre monde", i)
+	fmt.Println("Bienvenue dans notre monde !", i)
 	return ""
 }
 
@@ -35,7 +35,7 @@ func classe() string {
 	if r == 1 {
 		fmt.Println("Vous avez choisi la classe Humain")
 	} else if r == 2 {
-		fmt.Println("Vous avez choisi la classe Loupgarou")
+		fmt.Println("Vous avez choisi la classe Loup-garou")
 	} else if r == 3 {
 		fmt.Println("Vous avez choisi la classe Hybride")
 	} else if r == 4 {
@@ -47,4 +47,13 @@ func classe() string {
 	}
 
 	return ""
+}
+
+func DisplayInfo() {
+	fmt.Println("Nom :", i)
+	fmt.Println("Classe :", r)
+	fmt.Println("Niveau :", Niveau)
+	fmt.Println("HP Actuel :", HPactuel)
+	fmt.Println("Max HP :", MaxHP)
+	fmt.Println("Inventaire :", Inventaire)
 }
