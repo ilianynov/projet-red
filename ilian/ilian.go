@@ -22,6 +22,8 @@ func name() string {
 	return ""
 }
 
+var Classe string
+
 func classe() string {
 	var r int
 
