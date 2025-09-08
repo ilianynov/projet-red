@@ -5,7 +5,6 @@ import (
 	"time"
 )
 
-// poisonPot deals 10 damage per second for 3 seconds, printing HP each time
 func poisonPot(c *Character) {
 	for i := 0; i < 3; i++ {
 		c.HP -= 10
