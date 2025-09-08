@@ -11,9 +11,8 @@ func isDead(c * Character ) bool {
 	return false
 }
 
-import ("fmt"
-		"time"
-)
+import ("time")
+	
 
 Time.sleep(1 * Time.Second)
 
