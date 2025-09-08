@@ -25,7 +25,7 @@ func initCharacter(nom string, classe string, niveau int, maxHP int, hpActuel in
 
 func CharacterCreation() {
 	char1 := Character{
-		Nom:        "Elfe",
+		Nom:        "Elyndra",
 		Classe:     "Mage",
 		Niveau:     1,
 		MaxHP:      100,
