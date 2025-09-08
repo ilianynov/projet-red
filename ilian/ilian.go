@@ -9,15 +9,6 @@ func main() {
 	classe()
 }
 
-type Character struct {
-	Nom        string
-	Classe     string
-	Niveau     int
-	MaxHP      int
-	HPactuel   int
-	Inventaire []string
-}
-
 func name() string {
 	var i string
 
