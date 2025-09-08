@@ -21,17 +21,42 @@ type Character struct {
 func name() string {
 	var i string
 
-	fmt.Print("Entrez le nom de votre personnage : ")
+	fmt.Println("=====================================")
+	fmt.Println("| Entrez le nom de votre personnage |")
+	fmt.Println("=====================================")
 	fmt.Scan(&i)
-	fmt.Println("Bienvenue dans notre monde !", i)
+	fmt.Println("================================")
+	fmt.Println("| Bienvenue dans notre monde ! |", i)
+	fmt.Println("================================")
 	return ""
 }
 
 func classe() string {
 	var r int
 
-	fmt.Print("Choisissez votre classe : \n 1. Humain \n 2. Loupgarou \n 3. Hybride \n 4. Nain \n 5. Ange \n 6. Démon \n")
+	fmt.Println("  _______________________________________________________________")
+	fmt.Println(" /                                                               \\")
+	fmt.Println("|      						                                   |")
+	fmt.Println("|                    //===================\\                       |")
+	fmt.Println("|                    |      CHOISISSEZ     |                      |")
+	fmt.Println("|                    |                     |                      |")
+	fmt.Println("|                    |         VOTRE       |                      |")
+	fmt.Println("|                    |                     |                      |")
+	fmt.Println("|                    |        CLASSE       |                      |")
+	fmt.Println("|                    \\===================//                       |")
+	fmt.Println("|                                                                 |")
+	fmt.Println("|                                                                 |")
+	fmt.Println("|_________________________________________________________________|")
+	fmt.Println(" \\                                                               /")
+	fmt.Println("  )                                                             ( ")
+	fmt.Println(" /                                                               \\")
+	fmt.Println("|			1. Humain        4. Nain                     |")
+	fmt.Println("|   		2. Loup-garou    5. Ange                     |")
+	fmt.Println("|   		3. Hybride       6. Démon                    |")
+	fmt.Println(" \\_______________________________________________________________/")
+
 	fmt.Scan(&r)
+
 	if r == 1 {
 		fmt.Println("Vous avez choisi la classe Humain")
 	} else if r == 2 {
@@ -47,13 +72,4 @@ func classe() string {
 	}
 
 	return ""
-}
-
-func DisplayInfo() {
-	fmt.Println("Nom :", i)
-	fmt.Println("Classe :", r)
-	fmt.Println("Niveau :", Niveau)
-	fmt.Println("HP Actuel :", HPactuel)
-	fmt.Println("Max HP :", MaxHP)
-	fmt.Println("Inventaire :", Inventaire)
 }
