@@ -73,3 +73,15 @@ func classe() string {
 
 	return ""
 }
+<<<<<<< HEAD
+=======
+
+func DisplayInfo() {
+	fmt.Println("Nom :", i)
+	fmt.Println("Classe :", r)
+	fmt.Println("Niveau :", Niveau)
+	fmt.Println("HP Actuel :", HPactuel)
+	fmt.Println("Max HP :", MaxHP)
+	fmt.Println("Inventaire :", Inventaire)
+}
+>>>>>>> d6d8fe7d9f8404d876eea34df41c5a38879aa6bb
