@@ -4,12 +4,19 @@ import (
 	"fmt"
 )
 
+type Character struct {
+	Nom           string
+	Classe        string
+	Niveau        int
+	MaxHP         int
+	HPactuel      int
+	Inventaire    []string
+	MaxInventaire int
+}
+
 func inventairePlein(j *Character) bool {
-	total := 0
-	for _, qty := range j.Inventaire {
-		total += qty
-	}
-	return total >= j.InventaireMax
+	total := len(j.Inventaire)
+	return total >= j.MaxInventaire
 }
 
 func fabriquer(j *Character, item string) {
