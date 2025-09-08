@@ -4,10 +4,9 @@ type item struct {
 	name     string
 	quantity int
 	rarity   int
-	price    int
 }
 
-var Gold = item{name: "Or", quantity: 1, rarity: 0, price: 0}
+var Gold = item{name: "Or", quantity: 1, rarity: 0}
 var BasicSword = item{name: "Épée basique", quantity: 1, rarity: 1}
 var HealthPotion = item{name: "Potion de santé", quantity: 1, rarity: 1}
 var PoisonPotion = item{name: "Potion empoisonnée", quantity: 1, rarity: 1}
