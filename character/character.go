@@ -49,8 +49,8 @@ func CharacterCreation() {
 		Nom:        "Séraphine",
 		Classe:     "Ange",
 		Niveau:     1,
-		MaxHP:      110,
-		HPactuel:   110,
+		MaxHP:      75,
+		HPactuel:   75,
 		Inventaire: []string{},
 	}
 	char6 := Character{
@@ -72,8 +72,4 @@ func CharacterCreation() {
 	fmt.Println("Nom:", char1.Nom, "Classe:", char1.Classe, "Niveau:", char1.Niveau, "MaxHP:", char1.MaxHP, "HPactuel:", char1.HPactuel)
 	fmt.Println("Nom:", char2.Nom, "Classe:", char2.Classe, "Niveau:", char2.Niveau, "MaxHP:", char2.MaxHP, "HPactuel:", char2.HPactuel)
 
-}
-
-func main() {
-	CharacterCreation()
 }
