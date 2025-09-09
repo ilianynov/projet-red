@@ -9,7 +9,7 @@ type Character struct {
 	Niveau     int
 	MaxHP      int
 	HPactuel   int
-	Inventaire []string
+	Inventaire []item
 }
 
 func CharacterCreation() {
@@ -19,7 +19,7 @@ func CharacterCreation() {
 		Niveau:     1,
 		MaxHP:      100,
 		HPactuel:   100,
-		Inventaire: []string{},
+		Inventaire: []item{MagicStaff},
 	}
 	char2 := Character{
 		Nom:        "Borin",
@@ -27,7 +27,7 @@ func CharacterCreation() {
 		Niveau:     1,
 		MaxHP:      120,
 		HPactuel:   120,
-		Inventaire: []string{},
+		Inventaire: []item{BattleAxe},
 	}
 	char3 := Character{
 		Nom:        "Arthur",
@@ -35,7 +35,7 @@ func CharacterCreation() {
 		Niveau:     1,
 		MaxHP:      100,
 		HPactuel:   100,
-		Inventaire: []string{},
+		Inventaire: []item{KnightsSword},
 	}
 	char4 := Character{
 		Nom:        "Lysandre",
@@ -43,7 +43,7 @@ func CharacterCreation() {
 		Niveau:     1,
 		MaxHP:      90,
 		HPactuel:   90,
-		Inventaire: []string{},
+		Inventaire: []item{SteelClaws},
 	}
 	char5 := Character{
 		Nom:        "Séraphine",
@@ -51,7 +51,7 @@ func CharacterCreation() {
 		Niveau:     1,
 		MaxHP:      75,
 		HPactuel:   75,
-		Inventaire: []string{},
+		Inventaire: []item{CelestialBlade},
 	}
 	char6 := Character{
 		Nom:        "Azazel",
@@ -59,7 +59,7 @@ func CharacterCreation() {
 		Niveau:     1,
 		MaxHP:      120,
 		HPactuel:   120,
-		Inventaire: []string{},
+		Inventaire: []item{InfernalTrident},
 	}
 
 	fmt.Println(char1)
