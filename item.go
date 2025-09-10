@@ -35,5 +35,5 @@ var MagicStaff = item{name:"Baton Magique" , quantity: 1, rarity: 0}
 var CelestialBlade = item{name: "Lame céleste" , quantity: 1, rarity: 0}
 var BattleAxe = item{name: "Hache de guerre" , quantity: 1, rarity 0}
 var KnightsSword = item{name: "Épée de chevalier" , quantity: 1, rarity 0}
-var SteelClaws = item{name: "Griffes d’acier" , quantity: 1, rarity 0}
+var SteelClaws = item{name: "Griffes d'acier" , quantity: 1, rarity 0}
 var InfernalTrident = item{name: "Trident infernal" , quantity 1, rarity 0}

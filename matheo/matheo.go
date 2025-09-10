@@ -24,3 +24,6 @@ func isDead(c *Character) bool {
 	}
 	return false
 }
+
+func inventorylimit(c*character)
+for inventorylimit 
