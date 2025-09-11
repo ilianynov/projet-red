@@ -348,7 +348,7 @@ func trainingFight(c *Character) {
 
 // --- Menu principal ---
 
-func menu() {
+func main() {
 	char := initCharacter()
 	for {
 		fmt.Println("\n--- Menu principal ---")
