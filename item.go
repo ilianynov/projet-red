@@ -127,4 +127,7 @@ var InfernalTrident = item{name: "Trident infernal" , quantity 1, rarity 0}
 
 
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
