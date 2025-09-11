@@ -6,7 +6,6 @@ func CanAddItem(inventaire []item) bool {
 	return len(inventaire) < 10
 }
 
-// AddItemToInventory tries to add newItem to the character's inventory
 func AddItemToInventory(char *Character, newItem item) {
 	if CanAddItem(char.Inventaire) {
 		char.Inventaire = append(char.Inventaire, newItem)
