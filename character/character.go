@@ -1,10 +1,56 @@
-// AddSpellBookToInventory adds a spell book item to the character's inventory
+
+package main
+
+import "fmt"
+
+type item struct {
+	name     string
+	quantity int
+	rarity   int
+}
+
+type Character struct {
+type Character struct {
+	Nom        string
+	Classe     string
+	Niveau     int
+	MaxHP      int
+	HPactuel   int
+	Inventaire []item
+	Skill      []string
+	Gold       int // pièces d'or
+}
+}
+
+var MagicStaff = item{name: "Baton Magique", quantity: 1, rarity: 0}
+var CelestialBlade = item{name: "Lame céleste", quantity: 1, rarity: 0}
+var BattleAxe = item{name: "Hache de guerre", quantity: 1, rarity: 0}
+var KnightsSword = item{name: "Épée de chevalier", quantity: 1, rarity: 0}
+var SteelClaws = item{name: "Griffes d'acier", quantity: 1, rarity: 0}
+var InfernalTrident = item{name: "Trident infernal", quantity: 1, rarity: 0}
+
+
+func SpendGold(c *Character, price int) bool {
+	if c.Gold >= price {
+		c.Gold -= price
+		fmt.Println("Achat réussi !")
+		return true
+	} else {
+		fmt.Println("Pas assez d'or !")
+		return false
+	}
+}
+
+func EarnGold(c *Character, amount int) {
+	c.Gold += amount
+	fmt.Printf("Vous avez gagné %d pièces d'or !\n", amount)
+}
+
 func AddSpellBookToInventory(c *Character, spellBookItem item) {
 	c.Inventaire = append(c.Inventaire, spellBookItem)
 	fmt.Println("Livre de sort ajouté à l'inventaire :", spellBookItem.name)
 }
 
-// ShowSpellBooksMenu allows the player to use a spell book from their inventory to learn a spell
 func ShowSpellBooksMenu(c *Character) {
 	spellBookItems := map[string]string{
 		"Livre de Sort : Boule de Feu": "Boule de feu",
@@ -13,7 +59,7 @@ func ShowSpellBooksMenu(c *Character) {
 	}
 	found := false
 	for i, it := range c.Inventaire {
-		if spell, ok := spellBookItems[it.name]; ok {
+		if _, ok := spellBookItems[it.name]; ok {
 			found = true
 			fmt.Printf("%d. %s\n", i+1, it.name)
 		}
@@ -36,19 +82,8 @@ func ShowSpellBooksMenu(c *Character) {
 		fmt.Println("Annulé.")
 	}
 }
-package main
 
-import "fmt"
 
-type Character struct {
-	Nom        string
-	Classe     string
-	Niveau     int
-	MaxHP      int
-	HPactuel   int
-	Inventaire []item
-	Skill      []string
-}
 
 func initCharacter(nom string, classe string, niveau int, maxHP int, hpActuel int, inventaire []item) Character {
 	return Character{
@@ -59,10 +94,12 @@ func initCharacter(nom string, classe string, niveau int, maxHP int, hpActuel in
 		HPactuel:   hpActuel,
 		Inventaire: inventaire,
 		Skill:      []string{"Coup de poing"},
+		Gold:       100,
 	}
 }
 
 
+// spellBook adds a spell to the character's skill list if not already learned
 func spellBook(c *Character, spell string) {
 	for _, s := range c.Skill {
 		if s == spell {
@@ -74,6 +111,7 @@ func spellBook(c *Character, spell string) {
 	fmt.Println("Vous avez appris le sort :", spell)
 }
 
+// UseSpellBook lets the player learn a spell from a spell book item
 func UseSpellBook(c *Character, spellBookItem item, spellName string) {
 	var input string
 	fmt.Printf("Voulez-vous apprendre le sort '%s' ? (o/n): ", spellName)
@@ -83,17 +121,6 @@ func UseSpellBook(c *Character, spellBookItem item, spellName string) {
 	} else {
 		fmt.Println("Vous n'avez pas appris le sort.")
 	}
-}
-
-func spellBook(c *Character) {
-	for _, skill := range c.Skill {
-		if skill == "Boule de feu" {
-			fmt.Println("Ce sort est déjà appris.")
-			return
-		}
-	}
-	c.Skill = append(c.Skill, "Boule de feu")
-	fmt.Println("Vous avez appris le sort Boule de feu !")
 }
 
 func CharacterCreation() {
