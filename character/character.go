@@ -1,3 +1,41 @@
+// AddSpellBookToInventory adds a spell book item to the character's inventory
+func AddSpellBookToInventory(c *Character, spellBookItem item) {
+	c.Inventaire = append(c.Inventaire, spellBookItem)
+	fmt.Println("Livre de sort ajouté à l'inventaire :", spellBookItem.name)
+}
+
+// ShowSpellBooksMenu allows the player to use a spell book from their inventory to learn a spell
+func ShowSpellBooksMenu(c *Character) {
+	spellBookItems := map[string]string{
+		"Livre de Sort : Boule de Feu": "Boule de feu",
+		"Livre de Sort : Éclair de Glace": "Éclair de Glace",
+		"Livre de Sort : Soin Rapide": "Soin Rapide",
+	}
+	found := false
+	for i, it := range c.Inventaire {
+		if spell, ok := spellBookItems[it.name]; ok {
+			found = true
+			fmt.Printf("%d. %s\n", i+1, it.name)
+		}
+	}
+	if !found {
+		fmt.Println("Aucun livre de sort dans l'inventaire.")
+		return
+	}
+	var choice int
+	fmt.Print("Entrez le numéro du livre de sort à utiliser (0 pour annuler) : ")
+	fmt.Scan(&choice)
+	if choice > 0 && choice <= len(c.Inventaire) {
+		selected := c.Inventaire[choice-1]
+		if spell, ok := spellBookItems[selected.name]; ok {
+			UseSpellBook(c, selected, spell)
+		} else {
+			fmt.Println("Ce n'est pas un livre de sort valide.")
+		}
+	} else {
+		fmt.Println("Annulé.")
+	}
+}
 package main
 
 import "fmt"
@@ -9,10 +47,10 @@ type Character struct {
 	MaxHP      int
 	HPactuel   int
 	Inventaire []item
+	Skill      []string
 }
 
-// Nouvelle fonction pour initialiser un personnage
-func initCharacter(nom string, classe string, niveau int, maxHP int, hpActuel int, inventaire []string) Character {
+func initCharacter(nom string, classe string, niveau int, maxHP int, hpActuel int, inventaire []item) Character {
 	return Character{
 		Nom:        nom,
 		Classe:     classe,
@@ -20,7 +58,42 @@ func initCharacter(nom string, classe string, niveau int, maxHP int, hpActuel in
 		MaxHP:      maxHP,
 		HPactuel:   hpActuel,
 		Inventaire: inventaire,
+		Skill:      []string{"Coup de poing"},
 	}
+}
+
+
+func spellBook(c *Character, spell string) {
+	for _, s := range c.Skill {
+		if s == spell {
+			fmt.Println("Ce sort est déjà appris.")
+			return
+		}
+	}
+	c.Skill = append(c.Skill, spell)
+	fmt.Println("Vous avez appris le sort :", spell)
+}
+
+func UseSpellBook(c *Character, spellBookItem item, spellName string) {
+	var input string
+	fmt.Printf("Voulez-vous apprendre le sort '%s' ? (o/n): ", spellName)
+	fmt.Scan(&input)
+	if input == "o" || input == "O" {
+		spellBook(c, spellName)
+	} else {
+		fmt.Println("Vous n'avez pas appris le sort.")
+	}
+}
+
+func spellBook(c *Character) {
+	for _, skill := range c.Skill {
+		if skill == "Boule de feu" {
+			fmt.Println("Ce sort est déjà appris.")
+			return
+		}
+	}
+	c.Skill = append(c.Skill, "Boule de feu")
+	fmt.Println("Vous avez appris le sort Boule de feu !")
 }
 
 func CharacterCreation() {
@@ -32,9 +105,8 @@ func CharacterCreation() {
 		HPactuel:   100,
 		Inventaire: []item{MagicStaff},
 	}
-<<<<<<< HEAD
 	fmt.Println("Personnage char1 :", char1)
-=======
+
 	char2 := Character{
 		Nom:        "Borin",
 		Classe:     "Guerrier",
@@ -85,10 +157,8 @@ func CharacterCreation() {
 	fmt.Println("Personnages créés avec succès !")
 	fmt.Println("Nom:", char1.Nom, "Classe:", char1.Classe, "Niveau:", char1.Niveau, "MaxHP:", char1.MaxHP, "HPactuel:", char1.HPactuel)
 	fmt.Println("Nom:", char2.Nom, "Classe:", char2.Classe, "Niveau:", char2.Niveau, "MaxHP:", char2.MaxHP, "HPactuel:", char2.HPactuel)
->>>>>>> ddf0a0fefb478e807be8e7492b6e44523f498b73
 
-	// Création d'un autre personnage c1 avec initCharacter
-	c1 := initCharacter("VotreNom", "Elfe", 1, 100, 40, []string{"Potion", "Potion", "Potion"})
+	c1 := initCharacter("VotreNom", "Elfe", 1, 100, 40, []item{MagicStaff, HealthPotion})
 	fmt.Println("Personnage c1 :", c1)
 }
 
@@ -96,14 +166,11 @@ type item struct {
 	name     string
 	quantity int
 	rarity   int
-
 }
 
-var MagicStaff = item{name:"Baton Magique" , quantity: 1, rarity: 0}
-var CelestialBlade = item{name: "Lame céleste" , quantity: 1, rarity: 0}
-var BattleAxe = item{name: "Hache de guerre" , quantity: 1, rarity 0}
-var KnightsSword = item{name: "Épée de chevalier" , quantity: 1, rarity 0}
-var SteelClaws = item{name: "Griffes d'acier" , quantity: 1, rarity 0}
-var InfernalTrident = item{name: "Trident infernal" , quantity 1, rarity 0}
-
-
+var MagicStaff = item{name: "Baton Magique", quantity: 1, rarity: 0}
+var CelestialBlade = item{name: "Lame céleste", quantity: 1, rarity: 0}
+var BattleAxe = item{name: "Hache de guerre", quantity: 1, rarity: 0}
+var KnightsSword = item{name: "Épée de chevalier", quantity: 1, rarity: 0}
+var SteelClaws = item{name: "Griffes d'acier", quantity: 1, rarity: 0}
+var InfernalTrident = item{name: "Trident infernal", quantity: 1, rarity: 0}

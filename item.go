@@ -1,4 +1,11 @@
-package main 
+var SpellBookFireball = item{name: "Livre de Sort : Boule de Feu", quantity: 1, rarity: 2, price: 25}
+var SpellBookIce = item{name: "Livre de Sort : Éclair de Glace", quantity: 1, rarity: 2, price: 25}
+var SpellBookHeal = item{name: "Livre de Sort : Soin Rapide", quantity: 1, rarity: 2, price: 30}
+var SpellBookFireball = item{name: "Livre de Sort : Boule de Feu", quantity: 1, rarity: 2, price: 25}
+
+package main
+var HealthPotion = item{name: "Potion de santé", quantity: 1, rarity: 1, price: 8}
+var SpellBookFireball = item{name: "Livre de Sort : Boule de Feu", quantity: 1, rarity: 2, price: 25}
 
 
 
@@ -10,7 +17,7 @@ func AddItemToInventory(char *Character, newItem item) {
 	if CanAddItem(char.Inventaire) {
 		char.Inventaire = append(char.Inventaire, newItem)
 	} else {
-		fmt.Println("Inventaire plein ! Impossible d’ajouter un nouvel item.")
+		fmt.Println("Inventaire plein ! Impossible d'ajouter un nouvel item.")
 	}
 }
  
@@ -114,37 +121,3 @@ var InfernalTrident = item{name: "Trident infernal" , quantity 1, rarity 0}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes

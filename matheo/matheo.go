@@ -25,5 +25,11 @@ func isDead(c *Character) bool {
 	return false
 }
 
-func inventorylimit(c*character)
-for inventorylimit 
+func inventorylimit(c *Character) {
+	if len(c.Inventaire) > 10 {
+		fmt.Println("Attention : inventaire plein ! Veuillez retirer des objets.")
+		// Optionally, you could remove the last item or prevent further addition here
+	} else {
+		fmt.Printf("Inventaire : %d/10 objets\n", len(c.Inventaire))
+	}
+}
