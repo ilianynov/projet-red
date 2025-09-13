@@ -5,13 +5,23 @@ import (
 )
 
 type Character struct {
-	Nom           string
-	Classe        string
-	Niveau        int
-	MaxHP         int
-	HPactuel      int
-	Inventaire    []string
-	MaxInventaire int
+	Nom                       string
+	Classe                    string
+	Niveau                    int
+	MaxHP                     int
+	HPactuel                  int
+	Inventaire                []string
+	MaxInventaire             int
+	Equipement                Equipment
+	Ressources                map[string]int
+	Or                        int
+	NbAugmentationsInventaire int
+}
+
+type Equipment struct {
+	Tete  string
+	Torse string
+	Pieds string
 }
 
 func inventairePlein(j *Character) bool {
@@ -108,5 +118,169 @@ func menuForgeron(j *Character) {
 		default:
 			fmt.Println("Option invalide. Veuillez réessayer.")
 		}
+	}
+}
+
+func bonusEquipement(e Equipment) int {
+	bonus := 0
+	if e.Tete == "Casque épique" {
+		bonus += 10
+	}
+	if e.Torse == "Armure épique" {
+		bonus += 25
+	}
+	if e.Pieds == "Bottes épiques" {
+		bonus += 15
+	}
+	return bonus
+}
+
+func retirerDeLInventaire(j *Character, item string) {
+	for i, v := range j.Inventaire {
+		if v == item {
+			j.Inventaire = append(j.Inventaire[:i], j.Inventaire[i+1:]...)
+			return
+		}
+	}
+}
+
+func ajouterALInventaire(j *Character, item string) {
+	if len(j.Inventaire) < j.MaxInventaire {
+		j.Inventaire = append(j.Inventaire, item)
+	} else {
+		fmt.Println("Votre inventaire est plein.")
+	}
+}
+
+func equiper(j *Character, item string) {
+	var emplacementPrecedent string
+	var oldEquip Equipment
+
+	switch item {
+	case "Casque épique":
+		emplacementPrecedent = j.Equipement.Tete
+		oldEquip = Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds}
+		if j.Equipement.Tete != "" {
+			retirerDeLInventaire(j, j.Equipement.Tete)
+		}
+		j.Equipement.Tete = item
+
+	case "Armure épique":
+		emplacementPrecedent = j.Equipement.Torse
+		oldEquip = Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds}
+		if j.Equipement.Torse != "" {
+			retirerDeLInventaire(j, j.Equipement.Torse)
+		}
+		j.Equipement.Torse = item
+
+	case "Bottes épiques":
+		emplacementPrecedent = j.Equipement.Pieds
+		oldEquip = Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds}
+		if j.Equipement.Pieds != "" {
+			retirerDeLInventaire(j, j.Equipement.Pieds)
+		}
+		j.Equipement.Pieds = item
+	}
+
+	if emplacementPrecedent != "" {
+		ajouterALInventaire(j, emplacementPrecedent)
+		j.MaxHP -= bonusEquipement(oldEquip)
+	}
+	retirerDeLInventaire(j, item)
+	j.MaxHP += bonusEquipement(Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds})
+
+	fmt.Printf("Vous avez équipé %s !\n", item)
+}
+
+func upgradeInventorySlot(j *Character) {
+	if j.NbAugmentationsInventaire >= 3 {
+		fmt.Println("Vous avez déjà atteint le nombre maximal d'augmentations d'inventaire (3).")
+		return
+	}
+	if j.Or < 30 {
+		fmt.Println("Vous n'avez pas assez d'or pour acheter une augmentation d'inventaire.")
+		return
+	}
+	j.Or -= 30
+	j.MaxInventaire += 10
+	j.NbAugmentationsInventaire++
+	fmt.Printf("Votre inventaire a été augmenté ! Capacité maximale : %d\n", j.MaxInventaire)
+}
+
+func menuMarchand(j *Character) {
+	var choix int
+	for {
+		fmt.Println("=====================================")
+		fmt.Println("|        Bienvenue chez le          |")
+		fmt.Println("|           Marchand !              |")
+		fmt.Println("=====================================")
+		fmt.Println("| 1. Potion de soin (10 Or)         |")
+		fmt.Println("| 2. Augmenter l'inventaire (30 Or) |")
+		fmt.Println("| 3. Quitter                        |")
+		fmt.Println("=====================================")
+		fmt.Print("Choisissez une option: ")
+		fmt.Scan(&choix)
+
+		switch choix {
+		case 1:
+			if j.Or >= 10 {
+				j.Or -= 10
+				ajouterALInventaire(j, "Potion de soin")
+				fmt.Println("Vous avez acheté une Potion de soin.")
+			} else {
+				fmt.Println("Vous n'avez pas assez d'or.")
+			}
+		case 2:
+			upgradeInventorySlot(j)
+		case 3:
+			fmt.Println("Merci de votre visite ! À bientôt.")
+			return
+		default:
+			fmt.Println("Choix invalide. Veuillez réessayer.")
+		}
+	}
+}
+
+type Monster struct {
+	Nom      string
+	MaxHP    int
+	HPactuel int
+	Attaque  int
+}
+
+func initGoblin() Monster {
+	return Monster{
+		Nom:      "Gobelin d’entrainement",
+		MaxHP:    40,
+		HPactuel: 40,
+		Attaque:  5,
+	}
+}
+
+func goblinPattern(j *Character) {
+	goblin := initGoblin()
+	tour := 1
+
+	for j.HPactuel > 0 && goblin.HPactuel > 0 {
+		var degats int
+		if tour%3 == 0 {
+			degats = goblin.Attaque * 2
+		} else {
+			degats = goblin.Attaque
+		}
+
+		j.HPactuel -= degats
+		if j.HPactuel < 0 {
+			j.HPactuel = 0
+		}
+
+		fmt.Printf("%s inflige à %s %d de dégats\n", goblin.Nom, j.Nom, degats)
+		fmt.Printf("%s : %d/%d PV\n", j.Nom, j.HPactuel, j.MaxHP)
+
+		if j.HPactuel == 0 {
+			fmt.Printf("%s est vaincu !\n", j.Nom)
+			break
+		}
+		tour++
 	}
 }
