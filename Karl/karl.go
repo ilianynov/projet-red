@@ -207,40 +207,6 @@ func upgradeInventorySlot(j *Character) {
 	fmt.Printf("Votre inventaire a été augmenté ! Capacité maximale : %d\n", j.MaxInventaire)
 }
 
-func menuMarchand(j *Character) {
-	var choix int
-	for {
-		fmt.Println("=====================================")
-		fmt.Println("|        Bienvenue chez le          |")
-		fmt.Println("|           Marchand !              |")
-		fmt.Println("=====================================")
-		fmt.Println("| 1. Potion de soin (10 Or)         |")
-		fmt.Println("| 2. Augmenter l'inventaire (30 Or) |")
-		fmt.Println("| 3. Quitter                        |")
-		fmt.Println("=====================================")
-		fmt.Print("Choisissez une option: ")
-		fmt.Scan(&choix)
-
-		switch choix {
-		case 1:
-			if j.Or >= 10 {
-				j.Or -= 10
-				ajouterALInventaire(j, "Potion de soin")
-				fmt.Println("Vous avez acheté une Potion de soin.")
-			} else {
-				fmt.Println("Vous n'avez pas assez d'or.")
-			}
-		case 2:
-			upgradeInventorySlot(j)
-		case 3:
-			fmt.Println("Merci de votre visite ! À bientôt.")
-			return
-		default:
-			fmt.Println("Choix invalide. Veuillez réessayer.")
-		}
-	}
-}
-
 type Monster struct {
 	Nom      string
 	MaxHP    int
