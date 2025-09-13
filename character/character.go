@@ -1,7 +1,12 @@
 package main
 
-// No imports needed for this file currently
 import "fmt"
+
+type Equipment struct {
+	Tete  string
+	Torse string
+	Pieds string
+}
 
 type Character struct {
 	Nom        string
@@ -10,6 +15,7 @@ type Character struct {
 	MaxHP      int
 	HPactuel   int
 	Inventaire []string
+	Equipement Equipment
 }
 
 func CharacterCreation() {
