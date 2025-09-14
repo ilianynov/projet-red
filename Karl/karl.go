@@ -1,22 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
-
-type Character struct {
-	Nom                       string
-	Classe                    string
-	Niveau                    int
-	MaxHP                     int
-	HPactuel                  int
-	Inventaire                []string
-	MaxInventaire             int
-	Equipement                Equipment
-	Ressources                map[string]int
-	Or                        int
-	NbAugmentationsInventaire int
-}
+import "fmt"
 
 type Equipment struct {
 	Tete  string
@@ -29,13 +13,13 @@ func inventairePlein(j *Character) bool {
 	return total >= j.MaxInventaire
 }
 
-func fabriquer(j *Character, item string) {
-	recette, exists := recettes[item]
+func fabriquer(j *Character, it item) {
+	recette, exists := recettes[it.name]
 	if !exists {
 		fmt.Println("Cet objet est indisponible chez le forgeron.")
 		return
 	}
-	if j.Or < recette.CoutOr {
+	if j.Gold < recette.CoutOr {
 		fmt.Println("Vous n'avez pas assez d'or pour fabriquer cet objet.")
 		return
 	}
@@ -49,12 +33,12 @@ func fabriquer(j *Character, item string) {
 		fmt.Println("Votre inventaire est plein. Vous ne pouvez pas fabriquer cet objet.")
 		return
 	}
-	j.Or -= recette.CoutOr
+	j.Gold -= recette.CoutOr
 	for ressource, qty := range recette.Ressources {
 		j.Ressources[ressource] -= qty
 	}
-	j.Inventaire = append(j.Inventaire, item)
-	fmt.Printf("Félicitations ! Vous avez fabriqué un(e) %s !\n", item)
+	j.Inventaire = append(j.Inventaire, it)
+	fmt.Printf("Félicitations ! Vous avez fabriqué un(e) %s !\n", it.name)
 }
 
 func menuForgeron(j *Character) {
@@ -135,18 +119,18 @@ func bonusEquipement(e Equipment) int {
 	return bonus
 }
 
-func retirerDeLInventaire(j *Character, item string) {
+func retirerDeLInventaire(j *Character, it item) {
 	for i, v := range j.Inventaire {
-		if v == item {
+		if v.name == it.name {
 			j.Inventaire = append(j.Inventaire[:i], j.Inventaire[i+1:]...)
 			return
 		}
 	}
 }
 
-func ajouterALInventaire(j *Character, item string) {
+func ajouterALInventaire(j *Character, it item) {
 	if len(j.Inventaire) < j.MaxInventaire {
-		j.Inventaire = append(j.Inventaire, item)
+		j.Inventaire = append(j.Inventaire, it)
 	} else {
 		fmt.Println("Votre inventaire est plein.")
 	}
@@ -216,7 +200,7 @@ type Monster struct {
 
 func initGoblin() Monster {
 	return Monster{
-		Nom:      "Gobelin d’entrainement",
+		Nom:      "Gobelin d'entrainement",
 		MaxHP:    40,
 		HPactuel: 40,
 		Attaque:  5,
