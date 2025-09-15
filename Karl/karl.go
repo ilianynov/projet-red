@@ -234,3 +234,71 @@ func goblinPattern(j *Character) {
 		tour++
 	}
 }
+
+func utiliserObjet(j *Character, m *Monster, objet string) {
+	switch objet {
+	case "Potion de soin":
+		soin := 20
+		j.HPactuel += soin
+		if j.HPactuel > j.MaxHP {
+			j.HPactuel = j.MaxHP
+		}
+		fmt.Printf("Vous utilisez %s et récupérez %d PV !\n", objet, soin)
+		retirerDeLInventaire(j, objet)
+		fmt.Printf("%s : %d/%d PV\n", j.Nom, j.HPactuel, j.MaxHP)
+	default:
+		fmt.Printf("L'objet %s n'a pas d'effet utilisable en combat.\n", objet)
+	}
+}
+
+func characterTurn(j *Character, m *Monster) {
+	var choix int
+	for {
+		fmt.Println("=====================================")
+		fmt.Println("|         Combat contre :", m.Nom)
+		fmt.Println("=====================================")
+		fmt.Println("| 1. Attaquer")
+		fmt.Println("| 2. Inventaire")
+		fmt.Println("=====================================")
+		fmt.Print("Votre choix : ")
+		fmt.Scan(&choix)
+
+		switch choix {
+		case 1:
+			// Attaque basique
+			degats := 5
+			m.HPactuel -= degats
+			if m.HPactuel < 0 {
+				m.HPactuel = 0
+			}
+			fmt.Printf("%s utilise Attaque basique et inflige %d dégâts à %s\n", j.Nom, degats, m.Nom)
+			fmt.Printf("%s : %d/%d PV\n", m.Nom, m.HPactuel, m.MaxHP)
+			return // Fin du tour du joueur
+		case 2:
+			// Inventaire
+			if len(j.Inventaire) == 0 {
+				fmt.Println("Votre inventaire est vide.")
+				continue
+			}
+			fmt.Println("Inventaire :")
+			for i, obj := range j.Inventaire {
+				fmt.Printf("%d. %s\n", i+1, obj)
+			}
+			fmt.Print("Choisissez un objet à utiliser (0 pour annuler) : ")
+			var choixObj int
+			fmt.Scan(&choixObj)
+			if choixObj == 0 {
+				continue
+			}
+			if choixObj > 0 && choixObj <= len(j.Inventaire) {
+				utiliserObjet(j, m, j.Inventaire[choixObj-1])
+				return // Fin du tour du joueur
+			} else {
+				fmt.Println("Choix invalide.")
+				continue
+			}
+		default:
+			fmt.Println("Choix invalide.")
+		}
+	}
+}
