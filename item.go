@@ -31,12 +31,15 @@ func ShopMenu(c *Character) {
 		}
 	}
 	for {
-		fmt.Println("=== Boutique ===")
+		fmt.Println("\n================ BOUTIQUE =================")
+		fmt.Printf("Or actuel : %d\n", c.Gold)
+		fmt.Println("-------------------------------------------")
 		for i, it := range items {
-			fmt.Printf("%d. %s (%d or) [Rareté: %d]\n", i+1, it.name, it.price, it.rarity)
+			fmt.Printf("%2d. %-25s %4d or  [Rareté: %d]\n", i+1, it.name, it.price, it.rarity)
 		}
-		fmt.Println("0. Quitter")
-		fmt.Print("Choisissez un objet à acheter : ")
+		fmt.Println("-------------------------------------------")
+		fmt.Println(" 0. Quitter")
+		fmt.Print("Votre choix : ")
 		var choix int
 		fmt.Scan(&choix)
 		if choix == 0 {
@@ -44,7 +47,15 @@ func ShopMenu(c *Character) {
 			break
 		}
 		if choix > 0 && choix <= len(items) {
-			BuyItem(c, items[choix-1])
+			itemChoisi := items[choix-1]
+			fmt.Printf("\nVous allez acheter : %s pour %d or. Confirmer ? (o/n) : ", itemChoisi.name, itemChoisi.price)
+			var confirm string
+			fmt.Scan(&confirm)
+			if confirm == "o" || confirm == "O" {
+				BuyItem(c, itemChoisi)
+			} else {
+				fmt.Println("Achat annulé.")
+			}
 		} else {
 			fmt.Println("Choix invalide.")
 		}
@@ -54,8 +65,6 @@ func ShopMenu(c *Character) {
 var SpellBookFireball = item{name: "Livre de Sort : Boule de Feu", quantity: 1, rarity: 2, price: 25}
 var SpellBookIce = item{name: "Livre de Sort : Éclair de Glace", quantity: 1, rarity: 2, price: 25}
 var SpellBookHeal = item{name: "Livre de Sort : Soin Rapide", quantity: 1, rarity: 2, price: 30}
-
-// removed duplicate HealthPotion and SpellBookFireball
 
 func CanAddItem(inventaire []item) bool {
 	return len(inventaire) < 10
@@ -87,7 +96,6 @@ var InfernalTrident = item{name: "Trident infernal", quantity: 1, rarity: 0, pri
 var HealthPotion = item{name: "Potion de santé", quantity: 1, rarity: 1, price: 10}
 var BasicSword = item{name: "Épée basique", quantity: 1, rarity: 1, price: 20}
 
-// removed duplicate HealthPotion
 var PoisonPotion = item{name: "Potion empoisonnée", quantity: 1, rarity: 1, price: 15}
 var Wood = item{name: "Bois", quantity: 1, rarity: 1, price: 2}
 
