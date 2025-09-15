@@ -305,4 +305,40 @@ func charTurn(j *Character, m *Monster) {
 		fmt.Print("Votre choix : ")
 		fmt.Scan(&choix)
 
-		switc
+		switch choix {
+		case 1:
+			degats := 5
+			m.HPactuel -= degats
+			if m.HPactuel < 0 {
+				m.HPactuel = 0
+			}
+			fmt.Printf("%s utilise Attaque basique et inflige %d dégâts à %s\n", j.Nom, degats, m.Nom)
+			fmt.Printf("%s : %d/%d PV\n", m.Nom, m.HPactuel, m.MaxHP)
+			return // Fin du tour du joueur
+		case 2:
+			if len(j.Inventaire) == 0 {
+				fmt.Println("Votre inventaire est vide.")
+				continue
+			}
+			fmt.Println("Inventaire :")
+			for i, obj := range j.Inventaire {
+				fmt.Printf("%d. %s\n", i+1, obj)
+			}
+			fmt.Print("Choisissez un objet à utiliser (0 pour annuler) : ")
+			var choixObj int
+			fmt.Scan(&choixObj)
+			if choixObj == 0 {
+				continue
+			}
+			if choixObj > 0 && choixObj <= len(j.Inventaire) {
+				utiliserObjet(j, m, j.Inventaire[choixObj-1])
+				return // Fin du tour du joueur
+			} else {
+				fmt.Println("Choix invalide.")
+				continue
+			}
+		default:
+			fmt.Println("Choix invalide.")
+		}
+	}
+}
