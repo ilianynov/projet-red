@@ -62,7 +62,13 @@ func menuForgeron(j *Character) {
 		fmt.Println("| 12. Petite bombe (30 Or)          |")
 		fmt.Println("| 13. Grosse bombe (50 Or)          |")
 		fmt.Println("| 14. Bombe nucléaire (100 Or)      |")
-		fmt.Println("| 15. Quitter                       |")
+		fmt.Println("| 15. Baton magique (75 Or)         |")
+		fmt.Println("| 16. Lame céleste (100 Or)         |")
+		fmt.Println("| 17. Hache de guerre (75 Or)       |")
+		fmt.Println("| 18. Épée de chevalier (80 Or)     |")
+		fmt.Println("| 19. Griffes d'acier (70 Or)       |")
+		fmt.Println("| 20. Trident infernal (90 Or)      |")
+		fmt.Println("| 21. Quitter le forgeron           |")
 		fmt.Println("=====================================")
 		fmt.Print("Choisissez une option: ")
 		fmt.Scan(&choix)
@@ -97,6 +103,18 @@ func menuForgeron(j *Character) {
 		case 14:
 			fabriquer(j, "Bombe nucléaire")
 		case 15:
+			fmt.Println("Baton magique")
+		case 16:
+			fmt.Println("Lame céleste")
+		case 17:
+			fmt.Println("Hache de guerre")
+		case 18:
+			fmt.Println("Épée de chevalier")
+		case 19:
+			fmt.Println("Griffes d'acier")
+		case 20:
+			fmt.Println("Trident infernal")
+		case 21:
 			fmt.Println("Merci de votre visite ! À bientôt.")
 			return
 		default:
@@ -206,6 +224,30 @@ func initGoblin() Monster {
 		Attaque:  5,
 	}
 }
+func initOgre() Monster {
+	return Monster{
+		Nom:      "Ogre",
+		MaxHP:    60,
+		HPactuel: 60,
+		Attaque:  10,
+	}
+}
+func initLoupGarou() Monster {
+	return Monster{
+		Nom:      "Loup-Garou",
+		MaxHP:    80,
+		HPactuel: 80,
+		Attaque:  15,
+	}
+}
+func initDragon() Monster {
+	return Monster{
+		Nom:      "Dragon",
+		MaxHP:    150,
+		HPactuel: 150,
+		Attaque:  25,
+	}
+}
 
 func goblinPattern(j *Character) {
 	goblin := initGoblin()
@@ -251,7 +293,7 @@ func utiliserObjet(j *Character, m *Monster, objet string) {
 	}
 }
 
-func characterTurn(j *Character, m *Monster) {
+func charTurn(j *Character, m *Monster) {
 	var choix int
 	for {
 		fmt.Println("=====================================")
@@ -263,42 +305,4 @@ func characterTurn(j *Character, m *Monster) {
 		fmt.Print("Votre choix : ")
 		fmt.Scan(&choix)
 
-		switch choix {
-		case 1:
-			// Attaque basique
-			degats := 5
-			m.HPactuel -= degats
-			if m.HPactuel < 0 {
-				m.HPactuel = 0
-			}
-			fmt.Printf("%s utilise Attaque basique et inflige %d dégâts à %s\n", j.Nom, degats, m.Nom)
-			fmt.Printf("%s : %d/%d PV\n", m.Nom, m.HPactuel, m.MaxHP)
-			return // Fin du tour du joueur
-		case 2:
-			// Inventaire
-			if len(j.Inventaire) == 0 {
-				fmt.Println("Votre inventaire est vide.")
-				continue
-			}
-			fmt.Println("Inventaire :")
-			for i, obj := range j.Inventaire {
-				fmt.Printf("%d. %s\n", i+1, obj)
-			}
-			fmt.Print("Choisissez un objet à utiliser (0 pour annuler) : ")
-			var choixObj int
-			fmt.Scan(&choixObj)
-			if choixObj == 0 {
-				continue
-			}
-			if choixObj > 0 && choixObj <= len(j.Inventaire) {
-				utiliserObjet(j, m, j.Inventaire[choixObj-1])
-				return // Fin du tour du joueur
-			} else {
-				fmt.Println("Choix invalide.")
-				continue
-			}
-		default:
-			fmt.Println("Choix invalide.")
-		}
-	}
-}
+		switc
