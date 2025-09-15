@@ -1,13 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"projet_red/character"
+)
 
-// Supposé :
-// func charTurn(c *Character, m *Monster) {}
-// func goblinPattern(c *Character, m *Monster) {}
-// type Character, type Monster déjà définis
-
-func trainingFight(c *Character, m *Monster) {
+func trainingFight(c *character.Character, m *Monster) {
 	tour := 1
 	for c.HP > 0 && m.HPactuel > 0 {
 		fmt.Printf("\n--- Tour %d ---\n", tour)
