@@ -17,19 +17,21 @@ func poisonPot(c *Character) {
 }
 
 func isDead(c *Character) bool {
-		if c.HP <= 0 {
-	fmt.Println("   _____")
-	fmt.Println("  /     \\")
-	fmt.Println(" | () () |")
-	fmt.Println(" |  ^_^  |")
-	fmt.Println(" | \___/ |")
-	fmt.Println("    .-''''''-.")
-	fmt.Println("  .'  _    _  '.")
-	fmt.Println(" /   (o)  (o)   \")
-	fmt.Println("|      /\       |")
-	fmt.Println("|     ____      |")
-	fmt.Println(" \   (____)   /")
-	fmt.Println("  '.        .'")
-	fmt.Println("    '-....-'")
-		return false
+	if c.HP <= 0 {
+		fmt.Println("      ______")
+		fmt.Println("   .-        -.")
+		fmt.Println("  /            \\")
+		fmt.Println(" |,  .-.  .-.  ,|")
+		fmt.Println(" | )(_o/  \\o_)( |")
+		fmt.Println(" |/     /\\     \\|")
+		fmt.Println(" (_     ^^     _)")
+		fmt.Println("  \\__|IIIIII|__/")
+		fmt.Println("   | \\IIIIII/ |")
+		fmt.Println("   \\          /")
+		fmt.Println("    `--------`")
+		fmt.Println("je vous croyais plus fort... Résurrection ?")
+		c.HP = c.MaxHP / 2
+		return true
+	}
+	return false
 }
