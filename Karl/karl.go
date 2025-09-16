@@ -3,7 +3,6 @@ package karl
 import (
 	"fmt"
 	"projet_red/character"
-	"projet_red/item"
 )
 
 type Equipment struct {
@@ -12,13 +11,13 @@ type Equipment struct {
 	Pieds string
 }
 
-func InventairePlein(j *character.Character) bool {
+func InventairePlein(j chan *character.Character) bool {
 	total := len(j.Inventaire)
 	return total >= j.MaxInventaire
 }
 
-func Fabriquer(j *character.Character, it item.Item) {
-	recette, exists := recettes[it.Name]
+func Fabriquer(j *character.Character, it item) {
+	recette, exists := recettes[it.name]
 	if !exists {
 		fmt.Println("Cet objet est indisponible chez le forgeron.")
 		return
@@ -42,7 +41,7 @@ func Fabriquer(j *character.Character, it item.Item) {
 		j.Ressources[ressource] -= qty
 	}
 	j.Inventaire = append(j.Inventaire, it)
-	fmt.Printf("Félicitations ! Vous avez fabriqué un(e) %s !\n", it.Name)
+	fmt.Printf("Félicitations ! Vous avez fabriqué un(e) %s !\n", it.name)
 }
 
 func MenuForgeron(j *character.Character) {
@@ -79,45 +78,45 @@ func MenuForgeron(j *character.Character) {
 
 		switch choix {
 		case 1:
-			Fabriquer(j, item.BasicSword)
+			Fabriquer(j, "Épée basique")
 		case 2:
-			Fabriquer(j, item.RareSword)
+			Fabriquer(j, "Épée rare")
 		case 3:
-			Fabriquer(j, item.EpicSword)
+			Fabriquer(j, "Épée épique")
 		case 4:
-			Fabriquer(j, item.LegendarySword)
+			Fabriquer(j, "Épée légendaire")
 		case 5:
-			Fabriquer(j, item.DemoniacSword)
+			Fabriquer(j, "Épée démoniaque")
 		case 6:
-			Fabriquer(j, item.AngelicSword)
+			Fabriquer(j, "Épée angélique")
 		case 7:
-			Fabriquer(j, item.RareArmor)
+			Fabriquer(j, "Armure rare")
 		case 8:
-			Fabriquer(j, item.EpicArmor)
+			Fabriquer(j, "Armure épique")
 		case 9:
-			Fabriquer(j, item.LegendaryArmor)
+			Fabriquer(j, "Armure légendaire")
 		case 10:
-			Fabriquer(j, item.DemoniacArmor)
+			Fabriquer(j, "Armure démoniaque")
 		case 11:
-			Fabriquer(j, item.AngelicArmor)
+			Fabriquer(j, "Armure angélique")
 		case 12:
-			Fabriquer(j, item.SmallBomb)
+			Fabriquer(j, "Petite bombe")
 		case 13:
-			Fabriquer(j, item.BigBomb)
+			Fabriquer(j, "Grosse bombe")
 		case 14:
-			Fabriquer(j, item.Nuke)
+			Fabriquer(j, "Bombe nucléaire")
 		case 15:
-			Fabriquer(j, item.MagicStaff)
+			fmt.Println("Baton magique")
 		case 16:
-			Fabriquer(j, item.CelestialBlade)
+			fmt.Println("Lame céleste")
 		case 17:
-			Fabriquer(j, item.BattleAxe)
+			fmt.Println("Hache de guerre")
 		case 18:
-			Fabriquer(j, item.KnightsSword)
+			fmt.Println("Épée de chevalier")
 		case 19:
-			Fabriquer(j, item.SteelClaws)
+			fmt.Println("Griffes d'acier")
 		case 20:
-			Fabriquer(j, item.InfernalTrident)
+			fmt.Println("Trident infernal")
 		case 21:
 			fmt.Println("Merci de votre visite ! À bientôt.")
 			return
@@ -141,16 +140,16 @@ func BonusEquipement(e Equipment) int {
 	return bonus
 }
 
-func RetirerDeLInventaire(j *character.Character, it item.Item) {
+func RetirerDeLInventaire(j *character.Character, it item) {
 	for i, v := range j.Inventaire {
-		if v.Name == it.Name {
+		if v.name == it.name {
 			j.Inventaire = append(j.Inventaire[:i], j.Inventaire[i+1:]...)
 			return
 		}
 	}
 }
 
-func AjouterALInventaire(j *character.Character, it item.Item) {
+func AjouterALInventaire(j *character.Character, it item) {
 	if len(j.Inventaire) < j.MaxInventaire {
 		j.Inventaire = append(j.Inventaire, it)
 	} else {
@@ -167,7 +166,7 @@ func Equiper(j *character.Character, item string) {
 		emplacementPrecedent = j.Equipement.Tete
 		oldEquip = Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds}
 		if j.Equipement.Tete != "" {
-			// RetirerDeLInventaire(j, j.Equipement.Tete) // Needs item.Item, not string
+			RetirerDeLInventaire(j, j.Equipement.Tete)
 		}
 		j.Equipement.Tete = item
 
@@ -175,7 +174,7 @@ func Equiper(j *character.Character, item string) {
 		emplacementPrecedent = j.Equipement.Torse
 		oldEquip = Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds}
 		if j.Equipement.Torse != "" {
-			// RetirerDeLInventaire(j, j.Equipement.Torse) // Needs item.Item, not string
+			RetirerDeLInventaire(j, j.Equipement.Torse)
 		}
 		j.Equipement.Torse = item
 
@@ -183,17 +182,17 @@ func Equiper(j *character.Character, item string) {
 		emplacementPrecedent = j.Equipement.Pieds
 		oldEquip = Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds}
 		if j.Equipement.Pieds != "" {
-			// RetirerDeLInventaire(j, j.Equipement.Pieds) // Needs item.Item, not string
+			RetirerDeLInventaire(j, j.Equipement.Pieds)
 		}
 		j.Equipement.Pieds = item
 	}
 
 	if emplacementPrecedent != "" {
-		// AjouterALInventaire(j, emplacementPrecedent) // Needs item.Item, not string
+		AjouterALInventaire(j, emplacementPrecedent)
 		j.MaxHP -= BonusEquipement(oldEquip)
 	}
-	// RetirerDeLInventaire(j, item) // Needs item.Item, not string
-	j.MaxHP += BonusEquipement(Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds})
+	retirerDeLInventaire(j, item)
+	j.MaxHP += bonusEquipement(Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds})
 
 	fmt.Printf("Vous avez équipé %s !\n", item)
 }
@@ -270,7 +269,7 @@ func GetMonsterIntro(monsterName string) string {
 }
 
 func GoblinPattern(j *character.Character) {
-	goblin := InitGoblin()
+	goblin := initGoblin()
 	tour := 1
 
 	for j.HPactuel > 0 && goblin.HPactuel > 0 {
@@ -306,14 +305,18 @@ func UtiliserObjet(j *character.Character, m *Monster, objet string) {
 			j.HPactuel = j.MaxHP
 		}
 		fmt.Printf("Vous utilisez %s et récupérez %d PV !\n", objet, soin)
-		RetirerDeLInventaire(j, item.HealthPotion)
+		retirerDeLInventaire(j, objet)
 		fmt.Printf("%s : %d/%d PV\n", j.Nom, j.HPactuel, j.MaxHP)
 	default:
 		fmt.Printf("L'objet %s n'a pas d'effet utilisable en combat.\n", objet)
 	}
 }
 
+<<<<<<< Updated upstream
+func charTurn(j *Character, m *Monster) {
+=======
 func CharacterTurn(j *character.Character, m *Monster) {
+>>>>>>> Stashed changes
 	var choix int
 	for {
 		fmt.Println("=====================================")
@@ -342,7 +345,7 @@ func CharacterTurn(j *character.Character, m *Monster) {
 			}
 			fmt.Println("Inventaire :")
 			for i, obj := range j.Inventaire {
-				fmt.Printf("%d. %s\n", i+1, obj.Name)
+				fmt.Printf("%d. %s\n", i+1, obj)
 			}
 			fmt.Print("Choisissez un objet à utiliser (0 pour annuler) : ")
 			var choixObj int
@@ -351,7 +354,7 @@ func CharacterTurn(j *character.Character, m *Monster) {
 				continue
 			}
 			if choixObj > 0 && choixObj <= len(j.Inventaire) {
-				UtiliserObjet(j, m, j.Inventaire[choixObj-1].Name)
+				utiliserObjet(j, m, j.Inventaire[choixObj-1])
 				return // Fin du tour du joueur
 			} else {
 				fmt.Println("Choix invalide.")

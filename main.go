@@ -1,236 +1,228 @@
 package main
+
 import (
 	"fmt"
-	"projet_red/character" // Importing character package
-	"projet_red/item"
 	karl "projet_red/Karl"
+	"projet_red/character"
+	"projet_red/item"
 )
 
-func main() {
-	fmt.Println("Bienvenue dans RPG ULTIME!")
-	var current *character.Character
-	for {
-		fmt.Println("\n================ Sélection du personnage ================")
-		fmt.Println("1. Matheo (Elfe)")
-		fmt.Println("2. Ilian (Humain)")
-		fmt.Println("3. Karl (Nain)")
-		fmt.Println("4. Créer un personnage personnalisé")
-		fmt.Println("0. Quitter le jeu")
-		fmt.Print("Votre choix : ")
-		var choixPerso int
-		fmt.Scan(&choixPerso)
-		switch choixPerso {
-		case 1:
-			current = &character.Matheo
-		case 2:
-			for {
-				fmt.Println("\n================ Sélection du personnage ================")
-				fmt.Println("1. Matheo (Elfe)")
-				fmt.Println("2. Ilian (Humain)")
-				fmt.Println("3. Karl (Nain)")
-				fmt.Println("4. Créer un personnage personnalisé")
-				fmt.Println("0. Quitter le jeu")
-				fmt.Print("Votre choix : ")
-				var choixPerso int
-				fmt.Scan(&choixPerso)
-				switch choixPerso {
-				case 1:
-					current = &character.Matheo
-				case 2:
-					current = &character.Ilian
-				case 3:
-					current = &character.Karl
-				case 4:
-					custom := character.CharacterCreation()
-					current = &custom
-				case 0:
-					fmt.Println("Merci d'avoir joué à RPG ULTIME ! Au revoir !")
-					return
-				default:
-					fmt.Println("Choix invalide.")
-					continue
-				}
-			}
-			switch choix {
-			case 1:
-				character.DisplayInfo(current)
-			case 2:
-				character.AccessInventory(current)
-			case 3:
-				item.ShopMenu(current)
-			case 4:
-				karl.MenuForgeron(current)
-			case 5:
-				fmt.Println("Choisissez votre adversaire :")
-				fmt.Println("1. Gobelin d'entrainement")
-				fmt.Println("2. Ogre")
-				fmt.Println("3. Loup-Garou")
-				fmt.Println("4. Dragon")
-				fmt.Print("Votre choix : ")
-				var monstreChoix int
-				fmt.Scan(&monstreChoix)
-				var monstre karl.Monster
-				fmt.Println("6. Livres de sorts")
-				fmt.Println("9. Changer de personnage")
-				fmt.Println("0. Quitter le jeu")
-				fmt.Print("Votre choix : ")
-				var choix int
-				fmt.Scan(&choix)
-				switch choix {
-				case 1:
-					ShowDetailedCharacter(current)
-				case 2:
-					character.AccessInventory(current)
-				case 3:
-					item.ShopMenu(current)
-				case 4:
-					karl.MenuForgeron(current)
-				case 5:
-					importCombat(current)
-				case 6:
-					fmt.Println("Forgeron non implémenté dans ce menu.")
-				case 0:
-					fmt.Println("Merci d'avoir joué à RPG ULTIME ! Au revoir !")
-					return
-				default:
-					fmt.Println("Choix invalide.")
-				}
-				if choix == 9 {
-					break
-				}
-		default:
-			fmt.Println("Choix invalide.")
-			continue
-		}
-	}
-		for {
-			fmt.Println("\n================ MENU PRINCIPAL ================")
-			fmt.Println("1. Voir les détails du personnage")
-			fmt.Println("2. Accéder à l'inventaire")
-			fmt.Println("3. Boutique")
-			fmt.Println("4. Forgeron")
-			fmt.Println("5. Combat d'entraînement")
-			fmt.Println("6. Livres de sorts")
-			fmt.Println("9. Changer de personnage")
-			fmt.Println("0. Quitter le jeu")
-			fmt.Print("Votre choix : ")
-			var choix int
-			fmt.Scan(&choix)
-			switch choix {
-			case 1:
-				ShowDetailedCharacter(current)
-			case 2:
-				character.AccessInventory(current)
-			case 3:
-				importItemShop(current)
-			case 4:
-				importForgeron(current)
-			case 5:
-				importCombat(current)
-			case 6:
-		case 3:
-			item.ShopMenu(current)
-				break
-			fmt.Println("Forgeron non implémenté dans ce menu.")
-				fmt.Println("Merci d'avoir joué à RPG ULTIME ! Au revoir !")
-				return
-			default:
-				fmt.Println("Choix invalide.")
-			}
-			if choix == 9 {
-				break
-			}
-		}
-	}
-
-	// ShowDetailedCharacter displays all details of the character with explanations
-	func ShowDetailedCharacter(c *character.Character) {
-		fmt.Println("================ Détails du Personnage ================")
-		fmt.Printf("Nom: %s\n", c.Nom)
-		fmt.Printf("Classe: %s\n", c.Classe)
-		fmt.Printf("Niveau: %d\t// Niveau d'expérience du personnage\n", c.Niveau)
-		fmt.Printf("Points de vie (HP): %d/%d\t// Points de vie actuels / maximum\n", c.HPactuel, c.MaxHP)
-		fmt.Printf("Or: %d\t// Richesse du personnage\n", c.Gold)
-		fmt.Printf("Inventaire:\n")
-		if len(c.Inventaire) == 0 {
-			fmt.Println("  (vide)")
-		} else {
-			for _, it := range c.Inventaire {
-				fmt.Printf("  - %s\n    Quantité: %d\n    Rareté: %d\n    Prix: %d\n", it.Name, it.Quantity, it.Rarity, it.Price)
-			}
-		}
-	}
-
-	func importCombat(c *character.Character) {
-		// Combat d'entraînement contre un monstre
-		fmt.Println("Choisissez votre adversaire :")
-		fmt.Println("1. Gobelin d'entrainement")
-		fmt.Println("2. Ogre")
-		fmt.Println("3. Loup-Garou")
-		fmt.Println("4. Dragon")
-		fmt.Print("Votre choix : ")
-		var monstreChoix int
-		fmt.Scan(&monstreChoix)
-		var m karl.Monster
-		switch monstreChoix {
-		case 1:
-			m = karl.InitGoblin()
-		case 2:
-			m = karl.InitOgre()
-		case 3:
-			m = karl.InitLoupGarou()
-		case 4:
-			m = karl.InitDragon()
-		default:
-			fmt.Println("Choix invalide, combat contre le Gobelin par défaut.")
-			m = karl.InitGoblin()
-		}
-		// You can call a combat function here if needed
-		fmt.Println("Fin du combat d'entraînement. Retour au menu principal.")
-	}
-func importCombat(c *character.Character) {
-	// Combat d'entraînement contre un monstre
-	fmt.Println("Choisissez votre adversaire :")
-	fmt.Println("1. Gobelin d'entrainement")
-	fmt.Println("2. Ogre")
-	fmt.Println("3. Loup-Garou")
-	fmt.Println("4. Dragon")
-	fmt.Print("Votre choix : ")
-	var monstreChoix int
-	fmt.Scan(&monstreChoix)
-	var m Monster
-	switch monstreChoix {
-	case 1:
-		m = initGoblin()
-	case 2:
-		m = initOgre()
-	case 3:
-		m = initLoupGarou()
-	case 4:
-		m = initDragon()
-	default:
-		fmt.Println("Choix invalide, combat contre le Gobelin par défaut.")
-		m = initGoblin()
-	}
-	TrainingFight(c, &m)
-	fmt.Println("Fin du combat d'entraînement. Retour au menu principal.")
+type Monster struct {
+	Nom      string
+	MaxHP    int
+	HPactuel int
+	Attaque  int
 }
 
+func ShowMainMenu() {
+	cyan := "\x1b[36m"
+	green := "\x1b[32m"
+	reset := "\x1b[0m"
+	fmt.Println(green + "\n================ RPG ULTIME ================" + reset)
+	fmt.Println(cyan + "1. Créer un personnage" + reset)
+	fmt.Println(cyan + "2. Afficher les infos du personnage" + reset)
+	fmt.Println(cyan + "3. Accéder à l'inventaire" + reset)
+	fmt.Println(cyan + "4. Boutique (Marchand)" + reset)
+	fmt.Println(cyan + "5. Forgeron" + reset)
+	fmt.Println(cyan + "6. Entrainement (Combat)" + reset)
+	fmt.Println(cyan + "7. Livres de sorts" + reset)
+	fmt.Println(cyan + "8. Spécial (Potion/Poison)" + reset)
+	fmt.Println(cyan + "9. Démo fonctions avancées" + reset)
+	fmt.Println(cyan + "0. Quitter" + reset)
+	fmt.Println(green + "============================================" + reset)
+	fmt.Println(cyan + "Astuce: Tapez 0 à tout moment pour quitter un menu." + reset)
+}
 
-// ShowDetailedCharacter displays all details of the character with explanations
-func ShowDetailedCharacter(c *character.Character) {
-	fmt.Println("================ Détails du Personnage ================")
-	fmt.Printf("Nom: %s\n", c.Nom)
-	fmt.Printf("Classe: %s\n", c.Classe)
-	fmt.Printf("Niveau: %d\t// Niveau d'expérience du personnage\n", c.Niveau)
-	fmt.Printf("Points de vie (HP): %d/%d\t// Points de vie actuels / maximum\n", c.HPactuel, c.MaxHP)
-	fmt.Printf("Or: %d\t// Richesse du personnage\n", c.Gold)
-	fmt.Printf("Inventaire:\n")
-	if len(c.Inventaire) == 0 {
-		fmt.Println("  (vide)")
-	} else {
-		for _, it := range c.Inventaire {
-			fmt.Printf("  - %s\n    Quantité: %d\n    Rareté: %d\n    Prix: %d\n", it.Name, it.Quantity, it.Rarity, it.Price)
+func ShowAsciiArt() {
+	cyan := "\x1b[36m"
+	reset := "\x1b[0m"
+	fmt.Println(cyan + "\n      ______\n   .-        -.\n  /            \\n |,  .-.  .-.  ,|\n | )(_o/  \\o_)( |\n |/     /\\     \\|\n (_     ^^     _)\n  \\__|IIIIII|__/\n   | \\IIIIII/ |\n   \\          /\n    `--------`\nje vous croyais plus fort... Résurrection ?\n" + reset)
+}
+
+func ShowAllDesigns() {
+	cyan := "\x1b[36m"
+	green := "\x1b[32m"
+	reset := "\x1b[0m"
+	fmt.Println(green + "\n================ RPG ULTIME ================" + reset)
+	fmt.Println(cyan + "1. Créer un personnage" + reset)
+	fmt.Println(cyan + "2. Afficher les infos du personnage" + reset)
+	fmt.Println(cyan + "3. Accéder à l'inventaire" + reset)
+	fmt.Println(cyan + "4. Boutique (Marchand)" + reset)
+	fmt.Println(cyan + "5. Forgeron" + reset)
+	fmt.Println(cyan + "6. Entrainement (Combat)" + reset)
+	fmt.Println(cyan + "7. Livres de sorts" + reset)
+	fmt.Println(cyan + "8. Spécial (Potion/Poison)" + reset)
+	fmt.Println(cyan + "9. Démo fonctions avancées" + reset)
+	fmt.Println(cyan + "0. Quitter" + reset)
+	fmt.Println(green + "============================================" + reset)
+	fmt.Println(cyan + "Astuce: Tapez 0 à tout moment pour quitter un menu." + reset)
+	fmt.Println(green + "\n=====================================" + reset)
+	fmt.Println(cyan + "| Entrez le nom de votre personnage |" + reset)
+	fmt.Println(green + "=====================================" + reset)
+	fmt.Println(cyan + "| Bienvenue dans notre monde, <nom> ! |" + reset)
+	fmt.Println(green + "=====================================" + reset)
+	fmt.Println(cyan + "  _______________________________________________________________" + reset)
+	fmt.Println(cyan + " /                                                               \\" + reset)
+	fmt.Println(cyan + "|                    //===================\\                      |" + reset)
+	fmt.Println(cyan + "|      CHOISISSEZ VOTRE CLASSE                                   |" + reset)
+	fmt.Println(cyan + "|        1. Humain        4. Nain                                |" + reset)
+	fmt.Println(cyan + "|        2. Loup-garou    5. Ange                                |" + reset)
+	fmt.Println(cyan + "|        3. Hybride       6. Démon                               |" + reset)
+	fmt.Println(cyan + "\\_______________________________________________________________/" + reset)
+	fmt.Println(green + "\n=====================================" + reset)
+	fmt.Println(cyan + "|        Bienvenue chez le Forgeron !         |" + reset)
+	fmt.Println(green + "=====================================" + reset)
+	fmt.Println(cyan + "| 1. Épée basique (10 Or)           |" + reset)
+	fmt.Println(cyan + "| 2. Épée rare (20 Or)              |" + reset)
+	fmt.Println(cyan + "| 3. Épée épique (25 Or)            |" + reset)
+	fmt.Println(cyan + "| 4. Épée légendaire (40 Or)        |" + reset)
+	fmt.Println(cyan + "| 5. Épée démoniaque (60 Or)        |" + reset)
+	fmt.Println(cyan + "| 6. Épée angélique (60 Or)         |" + reset)
+	fmt.Println(cyan + "| 7. Armure rare (30 Or)            |" + reset)
+	fmt.Println(cyan + "| 8. Armure épique (50 Or)          |" + reset)
+	fmt.Println(cyan + "| 9. Armure légendaire (70 Or)      |" + reset)
+	fmt.Println(cyan + "| 10. Armure démoniaque (90 Or)     |" + reset)
+	fmt.Println(cyan + "| 11. Armure angélique (90 Or)      |" + reset)
+	fmt.Println(cyan + "| 12. Petite bombe (30 Or)          |" + reset)
+	fmt.Println(cyan + "| 13. Grosse bombe (50 Or)          |" + reset)
+	fmt.Println(cyan + "| 14. Bombe nucléaire (100 Or)      |" + reset)
+	fmt.Println(cyan + "| 15. Quitter                       |" + reset)
+	fmt.Println(green + "=====================================" + reset)
+	fmt.Println(green + "\n================ BOUTIQUE =================" + reset)
+	fmt.Println(cyan + "Or actuel : <montant>" + reset)
+	fmt.Println(cyan + "-------------------------------------------" + reset)
+	fmt.Println(cyan + " 1. <item> <prix> or  [Rareté: <niveau>]" + reset)
+	fmt.Println(cyan + " ..." + reset)
+	fmt.Println(cyan + "-------------------------------------------" + reset)
+	fmt.Println(cyan + " 0. Quitter" + reset)
+	fmt.Println(green + "\n=====================================" + reset)
+	fmt.Println(cyan + "|         Combat contre : <nom>     |" + reset)
+	fmt.Println(green + "=====================================" + reset)
+	fmt.Println(cyan + "| 1. Attaquer" + reset)
+	fmt.Println(cyan + "| 2. Inventaire" + reset)
+	fmt.Println(green + "=====================================" + reset)
+	fmt.Println(cyan + "Votre choix :" + reset)
+}
+
+func main() {
+	var c1 character.Character
+	var created bool = false
+	ShowAsciiArt()
+	for {
+		ShowMainMenu()
+		cyan := "\x1b[36m"
+		green := "\x1b[32m"
+		reset := "\x1b[0m"
+		fmt.Print(cyan + "Votre choix : " + reset)
+		var choix int
+		fmt.Scan(&choix)
+
+		switch choix {
+		case 1:
+			c1 = character.CharacterCreation()
+			created = true
+		case 2:
+			if created {
+				character.DisplayInfo(&c1)
+			} else {
+				fmt.Println("Créez d'abord un personnage !")
+			}
+		case 3:
+			if created {
+				character.AccessInventory(&c1)
+			} else {
+				fmt.Println("Créez d'abord un personnage !")
+			}
+		case 4:
+			if created {
+				item.ShopMenu(&c1)
+			} else {
+				fmt.Println("Créez d'abord un personnage !")
+			}
+		case 5:
+			if created {
+				karl.MenuForgeron(&c1)
+			} else {
+				fmt.Println("Créez d'abord un personnage !")
+			}
+		case 6:
+			if created {
+				fmt.Println(green + "\nChoisissez votre adversaire :" + reset)
+				fmt.Println(cyan + "1. Gobelin d'entrainement" + reset)
+				fmt.Println(cyan + "2. Ogre" + reset)
+				fmt.Println(cyan + "3. Loup-Garou" + reset)
+				fmt.Println(cyan + "4. Dragon" + reset)
+				fmt.Print(cyan + "Votre choix : " + reset)
+				var monstreChoix int
+				fmt.Scan(&monstreChoix)
+				var monstre Monster
+				switch monstreChoix {
+				case 1:
+					monstre = Monster{"Gobelin d'entrainement", 40, 40, 5}
+				case 2:
+					monstre = Monster{"Ogre", 60, 60, 10}
+				case 3:
+					monstre = Monster{"Loup-Garou", 80, 80, 15}
+				case 4:
+					monstre = Monster{"Dragon", 150, 150, 25}
+				default:
+					fmt.Println("Choix invalide, combat contre le Gobelin par défaut.")
+					monstre = Monster{"Gobelin d'entrainement", 40, 40, 5}
+				}
+				fmt.Println(green+"Combat contre : "+reset, monstre.Nom)
+				// combat.TrainingFight(&c1, &monstre) // Uncomment if compatible
+			} else {
+				fmt.Println("Créez d'abord un personnage !")
+			}
+		case 7:
+			if created {
+				character.ShowSpellBooksMenu(&c1)
+			} else {
+				fmt.Println("Créez d'abord un personnage !")
+			}
+		case 8:
+			if created {
+				fmt.Println(cyan + "1. Utiliser une potion empoisonnée" + reset)
+				fmt.Println(cyan + "2. Vérifier si le personnage est mort" + reset)
+				fmt.Print(cyan + "Votre choix : " + reset)
+				var sub int
+				fmt.Scan(&sub)
+				switch sub {
+				case 1:
+					fmt.Println("Potion empoisonnée non implémentée dans ce menu.")
+				case 2:
+					fmt.Println("Fonction de vérification de mort non implémentée dans ce menu.")
+				}
+			} else {
+				fmt.Println("Créez d'abord un personnage !")
+			}
+		case 9:
+			fmt.Println(green + "\n--- Fonctions avancées et tests ---" + reset)
+			fmt.Println(cyan + "1. Gérer l'or (Spend/Earn)" + reset)
+			fmt.Println(cyan + "2. Ajouter un livre de sort à l'inventaire" + reset)
+			fmt.Println(cyan + "3. Ajouter un item à l'inventaire" + reset)
+			fmt.Println(cyan + "4. Bonus équipement (Karl)" + reset)
+			fmt.Println(cyan + "5. Quitter ce menu" + reset)
+			fmt.Print(cyan + "Votre choix : " + reset)
+			var adv int
+			fmt.Scan(&adv)
+			switch adv {
+			case 1:
+				character.SpendGold(&c1, 10)
+				character.EarnGold(&c1, 20)
+			case 2:
+				character.AddSpellBookToInventory(&c1, item.MagicStaff)
+			case 3:
+				item.AddItemToInventory(&c1.Inventaire, item.HealthPotion)
+			case 4:
+				fmt.Println(green+"Bonus équipement : "+reset, karl.BonusEquipement(karl.Equipment{}))
+			}
+		case 0:
+			fmt.Println(green + "\n      ______\n   .-        -.\n  /            \\n |,  .-.  .-.  ,|\n | )(_o/  \\o_)( |\n |/     /\\     \\|\n (_     ^^     _)\n  \\__|IIIIII|__/\n   | \\IIIIII/ |\n   \\          /\n    `--------`\nMerci d'avoir joué à RPG ULTIME !" + reset)
+			fmt.Println(green + "Au revoir !" + reset)
+			return
+		default:
+			fmt.Println("Choix invalide.")
 		}
 	}
 }

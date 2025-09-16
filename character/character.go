@@ -1,9 +1,7 @@
+
 package character
 
-import (
-	"fmt"
-	"projet_red/item"
-)
+import "fmt"
 
 // Predefined characters
 var Matheo = Character{
@@ -76,40 +74,35 @@ func DisplayInfo(c *Character) {
 func AccessInventory(c *Character) {
 	fmt.Println("Inventaire:")
 	for i, it := range c.Inventaire {
-		fmt.Printf("%d. %s x%d\n", i+1, it.Name, it.Quantity)
+		fmt.Printf("%d. %s x%d\n", i+1, it.name, it.quantity)
 	}
+}
+
+import "fmt"
+
+type item struct {
+	name     string
+	quantity int
+	rarity   int
 }
 
 type Character struct {
-	Nom           string
-	Classe        string
-	Niveau        int
-	MaxHP         int
-	HPactuel      int
-	Inventaire    []item.Item
-	Skill         []string
-	Gold          int // pièces d'or
-	MaxInventaire int
-	Equipement    struct {
-		Tete  string
-		Torse string
-		Pieds string
-	}
-	Ressources                map[string]int
-	NbAugmentationsInventaire int
-	Or                        int
+	Nom        string
+	Classe     string
+	Niveau     int
+	MaxHP      int
+	HPactuel   int
+	Inventaire []item
+	Skill      []string
+	Gold       int // pièces d'or
 }
 
-// Methods for item package compatibility
-func (c *Character) GetInventaire() *[]item.Item {
-	return &c.Inventaire
-}
-
-func (c *Character) GetGold() *int {
-	return &c.Gold
-}
-
-// Items are now imported from item package
+var MagicStaff = item{name: "Baton Magique", quantity: 1, rarity: 0}
+var CelestialBlade = item{name: "Lame céleste", quantity: 1, rarity: 0}
+var BattleAxe = item{name: "Hache de guerre", quantity: 1, rarity: 0}
+var KnightsSword = item{name: "Épée de chevalier", quantity: 1, rarity: 0}
+var SteelClaws = item{name: "Griffes d'acier", quantity: 1, rarity: 0}
+var InfernalTrident = item{name: "Trident infernal", quantity: 1, rarity: 0}
 
 func SpendGold(c *Character, price int) bool {
 	if c.Gold >= price {
@@ -127,9 +120,9 @@ func EarnGold(c *Character, amount int) {
 	fmt.Printf("Vous avez gagné %d pièces d'or !\n", amount)
 }
 
-func AddSpellBookToInventory(c *Character, spellBookItem item.Item) {
+func AddSpellBookToInventory(c *Character, spellBookItem item) {
 	c.Inventaire = append(c.Inventaire, spellBookItem)
-	fmt.Println("Livre de sort ajouté à l'inventaire :", spellBookItem.Name)
+	fmt.Println("Livre de sort ajouté à l'inventaire :", spellBookItem.name)
 }
 
 func ShowSpellBooksMenu(c *Character) {
@@ -140,9 +133,9 @@ func ShowSpellBooksMenu(c *Character) {
 	}
 	found := false
 	for i, it := range c.Inventaire {
-		if _, ok := spellBookItems[it.Name]; ok {
+		if _, ok := spellBookItems[it.name]; ok {
 			found = true
-			fmt.Printf("%d. %s\n", i+1, it.Name)
+			fmt.Printf("%d. %s\n", i+1, it.name)
 		}
 	}
 	if !found {
@@ -154,7 +147,7 @@ func ShowSpellBooksMenu(c *Character) {
 	fmt.Scan(&choice)
 	if choice > 0 && choice <= len(c.Inventaire) {
 		selected := c.Inventaire[choice-1]
-		if spell, ok := spellBookItems[selected.Name]; ok {
+		if spell, ok := spellBookItems[selected.name]; ok {
 			UseSpellBook(c, selected, spell)
 		} else {
 			fmt.Println("Ce n'est pas un livre de sort valide.")
@@ -164,7 +157,7 @@ func ShowSpellBooksMenu(c *Character) {
 	}
 }
 
-func InitCharacter(nom string, classe string, niveau int, maxHP int, hpActuel int, inventaire []item.Item) Character {
+func InitCharacter(nom string, classe string, niveau int, maxHP int, hpActuel int, inventaire []item) Character {
 	return Character{
 		Nom:        nom,
 		Classe:     classe,
@@ -188,7 +181,7 @@ func SpellBook(c *Character, spell string) {
 	fmt.Println("Vous avez appris le sort :", spell)
 }
 
-func UseSpellBook(c *Character, spellBookItem item.Item, spellName string) {
+func UseSpellBook(c *Character, spellBookItem item, spellName string) {
 	var input string
 	fmt.Printf("Voulez-vous apprendre le sort '%s' ? (o/n): ", spellName)
 	fmt.Scan(&input)
@@ -200,7 +193,76 @@ func UseSpellBook(c *Character, spellBookItem item.Item, spellName string) {
 }
 
 func CharacterCreation() Character {
+<<<<<<< HEAD
 	c1 := InitCharacter("VotreNom", "Elfe", 1, 100, 40, []item.Item{item.MagicStaff, item.HealthPotion})
+=======
+	char1 := Character{
+		Nom:        "Elyndra",
+		Classe:     "Mage",
+		Niveau:     1,
+		MaxHP:      100,
+		HPactuel:   100,
+		Inventaire: []item{MagicStaff},
+	}
+	fmt.Println("Personnage char1 :", char1)
+
+	char2 := Character{
+		Nom:        "Borin",
+		Classe:     "Guerrier",
+		Niveau:     1,
+		MaxHP:      120,
+		HPactuel:   120,
+		Inventaire: []item{BattleAxe},
+	}
+	char3 := Character{
+		Nom:        "Arthur",
+		Classe:     "Humain",
+		Niveau:     1,
+		MaxHP:      100,
+		HPactuel:   100,
+		Inventaire: []item{KnightsSword},
+	}
+	char4 := Character{
+		Nom:        "Lysandre",
+		Classe:     "Hybride",
+		Niveau:     1,
+		MaxHP:      90,
+		HPactuel:   90,
+		Inventaire: []item{SteelClaws},
+	}
+	char5 := Character{
+		Nom:        "Séraphine",
+		Classe:     "Ange",
+		Niveau:     1,
+		MaxHP:      75,
+		HPactuel:   75,
+		Inventaire: []item{CelestialBlade},
+	}
+	char6 := Character{
+		Nom:        "Azazel",
+		Classe:     "Démon",
+		Niveau:     1,
+		MaxHP:      120,
+		HPactuel:   120,
+		Inventaire: []item{InfernalTrident},
+	}
+
+	fmt.Println(char1)
+	fmt.Println(char2)
+	fmt.Println(char3)
+	fmt.Println(char4)
+	fmt.Println(char5)
+	fmt.Println(char6)
+	fmt.Println("Personnages créés avec succès !")
+	fmt.Println("Nom:", char1.Nom, "Classe:", char1.Classe, "Niveau:", char1.Niveau, "MaxHP:", char1.MaxHP, "HPactuel:", char1.HPactuel)
+	fmt.Println("Nom:", char2.Nom, "Classe:", char2.Classe, "Niveau:", char2.Niveau, "MaxHP:", char2.MaxHP, "HPactuel:", char2.HPactuel)
+
+	HealthPotion := item{name: "Potion de santé", quantity: 1, rarity: 0}
+	c1 := InitCharacter("VotreNom", "Elfe", 1, 100, 40, []item{MagicStaff, HealthPotion})
+>>>>>>> parent of 455598b (0ughwfea)
 	fmt.Println("Personnage c1 :", c1)
 	return c1
 }
+package character
+
+import "fmt"
