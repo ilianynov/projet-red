@@ -228,7 +228,7 @@ func InitGoblin() Monster {
 		Attaque:  5,
 	}
 }
-func initOgre() Monster {
+func InitOgre() Monster {
 	return Monster{
 		Nom:      "Ogre",
 		MaxHP:    60,
@@ -236,7 +236,7 @@ func initOgre() Monster {
 		Attaque:  10,
 	}
 }
-func initLoupGarou() Monster {
+func InitLoupGarou() Monster {
 	return Monster{
 		Nom:      "Loup-Garou",
 		MaxHP:    80,
@@ -244,12 +244,28 @@ func initLoupGarou() Monster {
 		Attaque:  15,
 	}
 }
-func initDragon() Monster {
+func InitDragon() Monster {
 	return Monster{
 		Nom:      "Dragon",
 		MaxHP:    150,
 		HPactuel: 150,
 		Attaque:  25,
+	}
+}
+
+// GetMonsterIntro returns a fitting intro text for each monster
+func GetMonsterIntro(monsterName string) string {
+	switch monsterName {
+	case "Gobelin d'entrainement":
+		return "Le gobelin ricane et vous provoque !"
+	case "Ogre":
+		return "L'ogre grogne et tape du pied, prêt à vous écraser !"
+	case "Loup-Garou":
+		return "Le loup-garou pousse un hurlement terrifiant !"
+	case "Dragon":
+		return "Le dragon rugit, les flammes dansent dans sa gueule !"
+	default:
+		return "Votre adversaire vous fixe avec intensité..."
 	}
 }
 

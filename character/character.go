@@ -5,6 +5,67 @@ import (
 	"projet_red/item"
 )
 
+// Predefined characters
+var Matheo = Character{
+	Nom:           "yzeldine",
+	Classe:        "Elfe",
+	Niveau:        1,
+	MaxHP:         100,
+	HPactuel:      100,
+	Inventaire:    []item.Item{{Name: "Baton Magique", Quantity: 1, Rarity: 0}, {Name: "Potion de santé", Quantity: 1, Rarity: 1}},
+	Skill:         []string{"Coup de poing"},
+	Gold:          100,
+	MaxInventaire: 10,
+	Equipement: struct {
+		Tete  string
+		Torse string
+		Pieds string
+	}{},
+	Ressources:                map[string]int{},
+	NbAugmentationsInventaire: 0,
+	Or:                        0,
+}
+
+var Ilian = Character{
+	Nom:           "Ilian",
+	Classe:        "Humain",
+	Niveau:        1,
+	MaxHP:         120,
+	HPactuel:      120,
+	Inventaire:    []item.Item{{Name: "Épée basique", Quantity: 1, Rarity: 0}},
+	Skill:         []string{"Coup d'épée"},
+	Gold:          80,
+	MaxInventaire: 10,
+	Equipement: struct {
+		Tete  string
+		Torse string
+		Pieds string
+	}{},
+	Ressources:                map[string]int{},
+	NbAugmentationsInventaire: 0,
+	Or:                        0,
+}
+
+var Karl = Character{
+	Nom:           "Karl",
+	Classe:        "Nain",
+	Niveau:        1,
+	MaxHP:         150,
+	HPactuel:      150,
+	Inventaire:    []item.Item{{Name: "Hache", Quantity: 1, Rarity: 1}},
+	Skill:         []string{"Coup de hache"},
+	Gold:          60,
+	MaxInventaire: 10,
+	Equipement: struct {
+		Tete  string
+		Torse string
+		Pieds string
+	}{},
+	Ressources:                map[string]int{},
+	NbAugmentationsInventaire: 0,
+	Or:                        0,
+}
+
 // Affiche les infos du personnage
 func DisplayInfo(c *Character) {
 	fmt.Printf("Nom: %s\nClasse: %s\nNiveau: %d\nHP: %d/%d\nInventaire: %v\nCompétences: %v\nOr: %d\n",
@@ -139,54 +200,7 @@ func UseSpellBook(c *Character, spellBookItem item.Item, spellName string) {
 }
 
 func CharacterCreation() Character {
-	var nom string
-	fmt.Print("Entrez le nom de votre personnage : ")
-	fmt.Scan(&nom)
-
-	fmt.Println("Choisissez votre classe :")
-	fmt.Println("1. Humain")
-	fmt.Println("2. Loup-garou")
-	fmt.Println("3. Hybride")
-	fmt.Println("4. Nain")
-	fmt.Println("5. Ange")
-	fmt.Println("6. Démon")
-	var classeChoix int
-	fmt.Print("Votre choix : ")
-	fmt.Scan(&classeChoix)
-
-	classe := "Elfe"
-	maxHP := 100
-	hpActuel := 40
-	inventaire := []item.Item{item.MagicStaff, item.HealthPotion}
-
-	switch classeChoix {
-	case 1:
-		classe = "Humain"
-		maxHP = 120
-		inventaire = []item.Item{item.BasicSword, item.HealthPotion}
-	case 2:
-		classe = "Loup-garou"
-		maxHP = 140
-		inventaire = []item.Item{item.SteelClaws, item.HealthPotion}
-	case 3:
-		classe = "Hybride"
-		maxHP = 110
-		inventaire = []item.Item{item.CelestialBlade, item.HealthPotion}
-	case 4:
-		classe = "Nain"
-		maxHP = 130
-		inventaire = []item.Item{item.BattleAxe, item.HealthPotion}
-	case 5:
-		classe = "Ange"
-		maxHP = 100
-		inventaire = []item.Item{item.KnightsSword, item.HealthPotion}
-	case 6:
-		classe = "Démon"
-		maxHP = 150
-		inventaire = []item.Item{item.InfernalTrident, item.HealthPotion}
-	}
-
-	c1 := InitCharacter(nom, classe, 1, maxHP, hpActuel, inventaire)
-	fmt.Println("Personnage créé :", c1)
+	c1 := InitCharacter("VotreNom", "Elfe", 1, 100, 40, []item.Item{item.MagicStaff, item.HealthPotion})
+	fmt.Println("Personnage c1 :", c1)
 	return c1
 }
