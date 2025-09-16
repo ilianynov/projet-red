@@ -5,11 +5,11 @@ import (
 )
 
 func main() {
-	name()
-	classe()
+	Name()
+	Classe()
 }
 
-func name() string {
+func Name() string {
 	var i string
 
 	fmt.Println("=====================================")
@@ -24,7 +24,7 @@ func name() string {
 
 var Classe string
 
-func classe() string {
+func Classe() string {
 	var r int
 
 	fmt.Println("  _______________________________________________________________")

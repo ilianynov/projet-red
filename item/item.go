@@ -1,8 +1,11 @@
-package main
+package item
 
-import "fmt"
+import (
+	"fmt"
+	"projet_red/character"
+)
 
-func BuyItem(c *Character, it item) {
+func BuyItem(c *character.Character, it item) {
 	if len(c.Inventaire) >= 10 {
 		fmt.Println("Votre inventaire est plein.")
 		return
@@ -16,7 +19,7 @@ func BuyItem(c *Character, it item) {
 	}
 }
 
-func ShopMenu(c *Character) {
+func ShopMenu(c *character.Character) {
 
 	allItems := []item{
 		BasicSword, HealthPotion, PoisonPotion, SmallBomb, BigBomb, Nuke,

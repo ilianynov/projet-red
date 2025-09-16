@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func poisonPot(c *Character) {
+func PoisonPot(c *Character) {
 	for i := 0; i < 3; i++ {
 		c.HP -= 10
 		if c.HP < 0 {
@@ -16,7 +16,7 @@ func poisonPot(c *Character) {
 	}
 }
 
-func isDead(c *Character) bool {
+func IsDead(c *Character) bool {
 	if c.HP <= 0 {
 		fmt.Println("      ______")
 		fmt.Println("   .-        -.")

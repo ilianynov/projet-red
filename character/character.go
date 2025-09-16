@@ -1,4 +1,21 @@
+
 package character
+
+import "fmt"
+
+// Affiche les infos du personnage
+func DisplayInfo(c *Character) {
+	fmt.Printf("Nom: %s\nClasse: %s\nNiveau: %d\nHP: %d/%d\nInventaire: %v\nCompétences: %v\nOr: %d\n",
+		c.Nom, c.Classe, c.Niveau, c.HPactuel, c.MaxHP, c.Inventaire, c.Skill, c.Gold)
+}
+
+// Affiche l'inventaire du personnage
+func AccessInventory(c *Character) {
+	fmt.Println("Inventaire:")
+	for i, it := range c.Inventaire {
+		fmt.Printf("%d. %s x%d\n", i+1, it.name, it.quantity)
+	}
+}
 
 import "fmt"
 
@@ -79,7 +96,7 @@ func ShowSpellBooksMenu(c *Character) {
 	}
 }
 
-func initCharacter(nom string, classe string, niveau int, maxHP int, hpActuel int, inventaire []item) Character {
+func InitCharacter(nom string, classe string, niveau int, maxHP int, hpActuel int, inventaire []item) Character {
 	return Character{
 		Nom:        nom,
 		Classe:     classe,
@@ -92,7 +109,7 @@ func initCharacter(nom string, classe string, niveau int, maxHP int, hpActuel in
 	}
 }
 
-func spellBook(c *Character, spell string) {
+func SpellBook(c *Character, spell string) {
 	for _, s := range c.Skill {
 		if s == spell {
 			fmt.Println("Ce sort est déjà appris.")
@@ -108,13 +125,13 @@ func UseSpellBook(c *Character, spellBookItem item, spellName string) {
 	fmt.Printf("Voulez-vous apprendre le sort '%s' ? (o/n): ", spellName)
 	fmt.Scan(&input)
 	if input == "o" || input == "O" {
-		spellBook(c, spellName)
+		SpellBook(c, spellName)
 	} else {
 		fmt.Println("Vous n'avez pas appris le sort.")
 	}
 }
 
-func CharacterCreation() {
+func CharacterCreation() Character {
 	char1 := Character{
 		Nom:        "Elyndra",
 		Classe:     "Mage",
@@ -177,6 +194,10 @@ func CharacterCreation() {
 	fmt.Println("Nom:", char2.Nom, "Classe:", char2.Classe, "Niveau:", char2.Niveau, "MaxHP:", char2.MaxHP, "HPactuel:", char2.HPactuel)
 
 	HealthPotion := item{name: "Potion de santé", quantity: 1, rarity: 0}
-	c1 := initCharacter("VotreNom", "Elfe", 1, 100, 40, []item{MagicStaff, HealthPotion})
+	c1 := InitCharacter("VotreNom", "Elfe", 1, 100, 40, []item{MagicStaff, HealthPotion})
 	fmt.Println("Personnage c1 :", c1)
+	return c1
 }
+package character
+
+import "fmt"

@@ -1,6 +1,9 @@
-package main
+package karl
 
-import "fmt"
+import (
+	"fmt"
+	"projet_red/character"
+)
 
 type Equipment struct {
 	Tete  string
@@ -8,12 +11,12 @@ type Equipment struct {
 	Pieds string
 }
 
-func inventairePlein(j *Character) bool {
+func InventairePlein(j chan *character.Character) bool {
 	total := len(j.Inventaire)
 	return total >= j.MaxInventaire
 }
 
-func fabriquer(j *Character, it item) {
+func Fabriquer(j *character.Character, it item) {
 	recette, exists := recettes[it.name]
 	if !exists {
 		fmt.Println("Cet objet est indisponible chez le forgeron.")
@@ -29,7 +32,7 @@ func fabriquer(j *Character, it item) {
 			return
 		}
 	}
-	if inventairePlein(j) {
+	if InventairePlein(j) {
 		fmt.Println("Votre inventaire est plein. Vous ne pouvez pas fabriquer cet objet.")
 		return
 	}
@@ -41,7 +44,7 @@ func fabriquer(j *Character, it item) {
 	fmt.Printf("Félicitations ! Vous avez fabriqué un(e) %s !\n", it.name)
 }
 
-func menuForgeron(j *Character) {
+func MenuForgeron(j *character.Character) {
 	var choix int
 	for {
 		fmt.Println("=====================================")
@@ -75,33 +78,33 @@ func menuForgeron(j *Character) {
 
 		switch choix {
 		case 1:
-			fabriquer(j, "Épée basique")
+			Fabriquer(j, "Épée basique")
 		case 2:
-			fabriquer(j, "Épée rare")
+			Fabriquer(j, "Épée rare")
 		case 3:
-			fabriquer(j, "Épée épique")
+			Fabriquer(j, "Épée épique")
 		case 4:
-			fabriquer(j, "Épée légendaire")
+			Fabriquer(j, "Épée légendaire")
 		case 5:
-			fabriquer(j, "Épée démoniaque")
+			Fabriquer(j, "Épée démoniaque")
 		case 6:
-			fabriquer(j, "Épée angélique")
+			Fabriquer(j, "Épée angélique")
 		case 7:
-			fabriquer(j, "Armure rare")
+			Fabriquer(j, "Armure rare")
 		case 8:
-			fabriquer(j, "Armure épique")
+			Fabriquer(j, "Armure épique")
 		case 9:
-			fabriquer(j, "Armure légendaire")
+			Fabriquer(j, "Armure légendaire")
 		case 10:
-			fabriquer(j, "Armure démoniaque")
+			Fabriquer(j, "Armure démoniaque")
 		case 11:
-			fabriquer(j, "Armure angélique")
+			Fabriquer(j, "Armure angélique")
 		case 12:
-			fabriquer(j, "Petite bombe")
+			Fabriquer(j, "Petite bombe")
 		case 13:
-			fabriquer(j, "Grosse bombe")
+			Fabriquer(j, "Grosse bombe")
 		case 14:
-			fabriquer(j, "Bombe nucléaire")
+			Fabriquer(j, "Bombe nucléaire")
 		case 15:
 			fmt.Println("Baton magique")
 		case 16:
@@ -123,7 +126,7 @@ func menuForgeron(j *Character) {
 	}
 }
 
-func bonusEquipement(e Equipment) int {
+func BonusEquipement(e Equipment) int {
 	bonus := 0
 	if e.Tete == "Casque épique" {
 		bonus += 10
@@ -137,7 +140,7 @@ func bonusEquipement(e Equipment) int {
 	return bonus
 }
 
-func retirerDeLInventaire(j *Character, it item) {
+func RetirerDeLInventaire(j *character.Character, it item) {
 	for i, v := range j.Inventaire {
 		if v.name == it.name {
 			j.Inventaire = append(j.Inventaire[:i], j.Inventaire[i+1:]...)
@@ -146,7 +149,7 @@ func retirerDeLInventaire(j *Character, it item) {
 	}
 }
 
-func ajouterALInventaire(j *Character, it item) {
+func AjouterALInventaire(j *character.Character, it item) {
 	if len(j.Inventaire) < j.MaxInventaire {
 		j.Inventaire = append(j.Inventaire, it)
 	} else {
@@ -154,7 +157,7 @@ func ajouterALInventaire(j *Character, it item) {
 	}
 }
 
-func equiper(j *Character, item string) {
+func Equiper(j *character.Character, item string) {
 	var emplacementPrecedent string
 	var oldEquip Equipment
 
@@ -163,7 +166,7 @@ func equiper(j *Character, item string) {
 		emplacementPrecedent = j.Equipement.Tete
 		oldEquip = Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds}
 		if j.Equipement.Tete != "" {
-			retirerDeLInventaire(j, j.Equipement.Tete)
+			RetirerDeLInventaire(j, j.Equipement.Tete)
 		}
 		j.Equipement.Tete = item
 
@@ -171,7 +174,7 @@ func equiper(j *Character, item string) {
 		emplacementPrecedent = j.Equipement.Torse
 		oldEquip = Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds}
 		if j.Equipement.Torse != "" {
-			retirerDeLInventaire(j, j.Equipement.Torse)
+			RetirerDeLInventaire(j, j.Equipement.Torse)
 		}
 		j.Equipement.Torse = item
 
@@ -179,14 +182,14 @@ func equiper(j *Character, item string) {
 		emplacementPrecedent = j.Equipement.Pieds
 		oldEquip = Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds}
 		if j.Equipement.Pieds != "" {
-			retirerDeLInventaire(j, j.Equipement.Pieds)
+			RetirerDeLInventaire(j, j.Equipement.Pieds)
 		}
 		j.Equipement.Pieds = item
 	}
 
 	if emplacementPrecedent != "" {
-		ajouterALInventaire(j, emplacementPrecedent)
-		j.MaxHP -= bonusEquipement(oldEquip)
+		AjouterALInventaire(j, emplacementPrecedent)
+		j.MaxHP -= BonusEquipement(oldEquip)
 	}
 	retirerDeLInventaire(j, item)
 	j.MaxHP += bonusEquipement(Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds})
@@ -194,7 +197,7 @@ func equiper(j *Character, item string) {
 	fmt.Printf("Vous avez équipé %s !\n", item)
 }
 
-func upgradeInventorySlot(j *Character) {
+func UpgradeInventorySlot(j *character.Character) {
 	if j.NbAugmentationsInventaire >= 3 {
 		fmt.Println("Vous avez déjà atteint le nombre maximal d'augmentations d'inventaire (3).")
 		return
@@ -216,7 +219,7 @@ type Monster struct {
 	Attaque  int
 }
 
-func initGoblin() Monster {
+func InitGoblin() Monster {
 	return Monster{
 		Nom:      "Gobelin d'entrainement",
 		MaxHP:    40,
@@ -249,7 +252,7 @@ func initDragon() Monster {
 	}
 }
 
-func goblinPattern(j *Character) {
+func GoblinPattern(j *character.Character) {
 	goblin := initGoblin()
 	tour := 1
 
@@ -277,7 +280,7 @@ func goblinPattern(j *Character) {
 	}
 }
 
-func utiliserObjet(j *Character, m *Monster, objet string) {
+func UtiliserObjet(j *character.Character, m *Monster, objet string) {
 	switch objet {
 	case "Potion de soin":
 		soin := 20
@@ -293,7 +296,11 @@ func utiliserObjet(j *Character, m *Monster, objet string) {
 	}
 }
 
+<<<<<<< Updated upstream
 func charTurn(j *Character, m *Monster) {
+=======
+func CharacterTurn(j *character.Character, m *Monster) {
+>>>>>>> Stashed changes
 	var choix int
 	for {
 		fmt.Println("=====================================")

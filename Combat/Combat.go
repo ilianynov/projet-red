@@ -1,10 +1,13 @@
-package main
+// Fichier renommé en combat.go pour respecter la convention Go
+package combat
 
 import (
 	"fmt"
+	karl "projet_red/Karl"
 	"projet_red/character"
 )
 
+<<<<<<< Updated upstream
 func goblinPattern(j *Character) {
 	goblin := initGoblin()
 	tour := 1
@@ -84,15 +87,24 @@ func charTurn(j *Character, m *Monster) {
 }
 
 func trainingFight(c *character.Character, m *Monster) {
+=======
+type Monster = karl.Monster
+
+func InitGoblin() Monster {
+	return karl.InitGoblin()
+}
+
+func TrainingFight(c *character.Character, m *Monster) {
+>>>>>>> Stashed changes
 	tour := 1
 	for c.HP > 0 && m.HPactuel > 0 {
 		fmt.Printf("\n--- Tour %d ---\n", tour)
-		charTurn(c, m)
+		CharTurn(c, m)
 		if m.HPactuel <= 0 {
 			fmt.Printf("Vous avez vaincu %s !\n", m.Nom)
 			break
 		}
-		goblinPattern(c, m)
+		GoblinPattern(c, m)
 		if c.HP <= 0 {
 			fmt.Println("Vous avez été vaincu !")
 			break

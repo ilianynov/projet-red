@@ -1,4 +1,4 @@
-package main
+package karl
 
 type Recette struct {
 	CoutOr     int
