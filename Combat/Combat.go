@@ -8,31 +8,58 @@ import (
 
 type Monster = karl.Monster
 
+const (
+	red   = "\033[31m"
+	green = "\033[32m"
+	cyan  = "\033[36m"
+	reset = "\033[0m"
+)
+
 func InitGoblin() Monster {
 	return karl.InitGoblin()
-}
-
-func goblinPattern(j *character.Character) {
-	karl.GoblinPattern(j)
 }
 
 func TrainingFight(c *character.Character, m *Monster) {
 	tour := 1
 	for c.HPactuel > 0 && m.HPactuel > 0 {
-		fmt.Printf("\n--- Tour %d ---\n", tour)
+		fmt.Printf(cyan+"\n--- Tour %d ---\n"+reset, tour)
 		charTurn(c, m)
+	}
+
+	if c.HPactuel > 0 {
+		fmt.Println("Vous avez vaincu l'ennemi !")
+		goldEarned := calculateGoldReward(m)
+		c.Gold += goldEarned
+		fmt.Printf("Vous gagnez %d pièces d'or !\n", goldEarned)
+	} else {
+		fmt.Println("Vous avez été vaincu...")
+	}
+}
+
+func calculateGoldReward(m *Monster) int {
+	switch m.Nom {
+	case "Gobelin d'entrainement":
+		return 10
+	case "Ogre":
+		return 20
+	case "Loup-Garou":
+		return 30
+	case "Dragon":
+		return 50
+	default:
+		return 5
 	}
 }
 
 func charTurn(j *character.Character, m *Monster) {
 	var choix int
 	for {
-		fmt.Println("=====================================")
-		fmt.Println("|         Combat contre :", m.Nom)
-		fmt.Println("=====================================")
-		fmt.Println("| 1. Attaquer")
-		fmt.Println("| 2. Inventaire")
-		fmt.Println("=====================================")
+		fmt.Println(green + "=====================================" + reset)
+		fmt.Printf(green+"|         Combat contre : %s         |\n"+reset, m.Nom)
+		fmt.Println(green + "=====================================" + reset)
+		fmt.Println(cyan + "| 1. Attaquer" + reset)
+		fmt.Println(cyan + "| 2. Inventaire" + reset)
+		fmt.Println(green + "=====================================" + reset)
 		fmt.Print("Votre choix : ")
 		fmt.Scan(&choix)
 
@@ -43,18 +70,11 @@ func charTurn(j *character.Character, m *Monster) {
 			if m.HPactuel < 0 {
 				m.HPactuel = 0
 			}
-			fmt.Printf("%s utilise Attaque basique et inflige %d dégâts à %s\n", j.Nom, degats, m.Nom)
-			fmt.Printf("%s : %d/%d PV\n", m.Nom, m.HPactuel, m.MaxHP)
+			fmt.Printf(red+"%s utilise Attaque basique et inflige %d dégâts à %s\n"+reset, j.Nom, degats, m.Nom)
+			fmt.Printf(red+"%s : %d/%d PV\n"+reset, m.Nom, m.HPactuel, m.MaxHP)
 			return // Fin du tour du joueur
 		case 2:
-			if len(j.Inventaire) == 0 {
-				fmt.Println("Votre inventaire est vide.")
-				continue
-			}
-			fmt.Println("Inventaire :")
-			for i, obj := range j.Inventaire {
-				fmt.Printf("%d. %s\n", i+1, obj.Name)
-			}
+			character.AccessInventory(j)
 			fmt.Print("Choisissez un objet à utiliser (0 pour annuler) : ")
 			var choixObj int
 			fmt.Scan(&choixObj)
@@ -62,14 +82,16 @@ func charTurn(j *character.Character, m *Monster) {
 				continue
 			}
 			if choixObj > 0 && choixObj <= len(j.Inventaire) {
-				karl.UtiliserObjet(j, m, j.Inventaire[choixObj-1])
+				obj := j.Inventaire[choixObj-1]
+				fmt.Printf(cyan+"Vous utilisez %s.\n"+reset, obj.Name)
+				// Implement item effects here
 				return // Fin du tour du joueur
 			} else {
-				fmt.Println("Choix invalide.")
+				fmt.Println(red + "Choix invalide." + reset)
 				continue
 			}
 		default:
-			fmt.Println("Choix invalide.")
+			fmt.Println(red + "Choix invalide." + reset)
 		}
 	}
 }

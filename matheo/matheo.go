@@ -7,7 +7,6 @@ import (
 	"time"
 )
 
-// PoisonPot applies poison damage to a character over time.
 func PoisonPot(c *character.Character) {
 	for i := 0; i < 3; i++ {
 		c.HPactuel -= 10
@@ -19,7 +18,6 @@ func PoisonPot(c *character.Character) {
 	}
 }
 
-// IsDead checks if a character is dead and handles resurrection.
 func IsDead(c *character.Character) bool {
 	if c.HPactuel <= 0 {
 		ShowDeathArt()
@@ -30,7 +28,6 @@ func IsDead(c *character.Character) bool {
 	return false
 }
 
-// MonsterAttack allows the monster to attack the character.
 func MonsterAttack(m *karl.Monster, c *character.Character) {
 	damage := m.Attaque
 	c.HPactuel -= damage
@@ -41,7 +38,6 @@ func MonsterAttack(m *karl.Monster, c *character.Character) {
 	fmt.Printf("%s : %d/%d PV\n", c.Nom, c.HPactuel, c.MaxHP)
 }
 
-// ShowDeathArt displays an ASCII art representation of death.
 func ShowDeathArt() {
 	fmt.Println(
 		"      ______\n" +
@@ -49,7 +45,7 @@ func ShowDeathArt() {
 			"  /            \\\n" +
 			" |,  .-.  .-.  ,|\n" +
 			" | )(_o/  \\o_)( |\n" +
-			" |/     /\\     \\|\n" +
+			" |/     /\\     \\\n" +
 			" (_     ^^     _)\n" +
 			"  \\__|IIIIII|__/\n" +
 			"   | \\IIIIII/ |\n" +
@@ -57,5 +53,3 @@ func ShowDeathArt() {
 			"    `--------`\n",
 	)
 }
-
-// Add your functions and code here
