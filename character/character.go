@@ -2,6 +2,7 @@
 package character
 
 import "fmt"
+<<<<<<< HEAD
 
 // Predefined characters
 var Matheo = Character{
@@ -63,6 +64,8 @@ var Karl = Character{
 	NbAugmentationsInventaire: 0,
 	Or:                        0,
 }
+=======
+>>>>>>> parent of 455598b (0ughwfea)
 
 // Affiche les infos du personnage
 func DisplayInfo(c *Character) {
@@ -194,8 +197,11 @@ func UseSpellBook(c *Character, spellBookItem item, spellName string) {
 
 func CharacterCreation() Character {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	c1 := InitCharacter("VotreNom", "Elfe", 1, 100, 40, []item.Item{item.MagicStaff, item.HealthPotion})
 =======
+=======
+>>>>>>> parent of 455598b (0ughwfea)
 	char1 := Character{
 		Nom:        "Elyndra",
 		Classe:     "Mage",
@@ -259,6 +265,9 @@ func CharacterCreation() Character {
 
 	HealthPotion := item{name: "Potion de santé", quantity: 1, rarity: 0}
 	c1 := InitCharacter("VotreNom", "Elfe", 1, 100, 40, []item{MagicStaff, HealthPotion})
+<<<<<<< HEAD
+>>>>>>> parent of 455598b (0ughwfea)
+=======
 >>>>>>> parent of 455598b (0ughwfea)
 	fmt.Println("Personnage c1 :", c1)
 	return c1
