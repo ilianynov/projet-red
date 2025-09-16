@@ -22,7 +22,7 @@ func Name() string {
 	return ""
 }
 
-var Classe string
+var ClasseValue string
 
 func Classe() string {
 	var r int
@@ -52,22 +52,22 @@ func Classe() string {
 
 	if r == 1 {
 		fmt.Println("Vous avez choisi la classe Humain")
-		Classe = "Humain"
+		ClasseValue = "Humain"
 	} else if r == 2 {
 		fmt.Println("Vous avez choisi la classe Loup-garou")
-		Classe = "Loup-garou"
+		ClasseValue = "Loup-garou"
 	} else if r == 3 {
 		fmt.Println("Vous avez choisi la classe Hybride")
-		Classe = "Hybride"
+		ClasseValue = "Hybride"
 	} else if r == 4 {
 		fmt.Println("Vous avez choisi la classe Nain")
-		Classe = "Nain"
+		ClasseValue = "Nain"
 	} else if r == 5 {
 		fmt.Println("Vous avez choisi la classe Ange")
-		Classe = "Ange"
+		ClasseValue = "Ange"
 	} else if r == 6 {
 		fmt.Println("Vous avez choisi la classe Démon")
-		Classe = "Démon"
+		ClasseValue = "Démon"
 	}
 
 	return ""
