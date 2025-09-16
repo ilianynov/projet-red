@@ -16,7 +16,6 @@ func PoisonPot(c *character.Character) {
 		time.Sleep(1 * time.Second)
 	}
 }
-
 func IsDead(c *character.Character) bool {
 	if c.HPactuel <= 0 {
 		ShowDeathArt()
@@ -25,4 +24,8 @@ func IsDead(c *character.Character) bool {
 		return true
 	}
 	return false
+}
+
+func ShowDeathArt() {
+	fmt.Println("      ______\n   .-        -.\n  /            \\n |,  .-.  .-.  ,|\n | )(_o/  \\o_)( |\n |/     /\\     \\|\n (_     ^^     _)\n  \\__|IIIIII|__/\n   | \\IIIIII/ |\n   \\          /\n    `--------`\n")
 }
