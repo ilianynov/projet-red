@@ -98,7 +98,6 @@ func AjouterALInventaire(j *character.Character, it item.Item) {
 // func UpgradeInventorySlot(j *character.Character) {
 //     // Inventory upgrade logic removed: NbAugmentationsInventaire not defined
 // }
-<<<<<<< HEAD
 =======
 func Equiper(j *Character, item string) {
 	var emplacementPrecedent string
@@ -130,7 +129,7 @@ func Equiper(j *Character, item string) {
 		j.Equipement.Pieds = item
 	}
 
-	if EmplacementPrecedent != "" {
+	if emplacementPrecedent != "" {
 		AjouterALInventaire(j, emplacementPrecedent)
 		j.MaxHP -= BonusEquipement(oldEquip)
 	}
@@ -155,8 +154,6 @@ func UpgradeInventorySlot(j *Character) {
 	fmt.Printf("Votre inventaire a été augmenté ! Capacité maximale : %d\n", j.MaxInventaire)
 }
 >>>>>>> Stashed changes
-=======
->>>>>>> parent of e7d8289 (t)
 
 type Monster struct {
 	Nom      string
