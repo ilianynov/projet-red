@@ -12,12 +12,36 @@ type Equipment struct {
 	Pieds string
 }
 
+<<<<<<< Updated upstream
 func InventairePlein(j *character.Character) bool {
+=======
+func InventairePlein(j *Character) bool {
+>>>>>>> Stashed changes
 	total := len(j.Inventaire)
 	return total >= 10 // Assuming max inventory size is 10
 }
+<<<<<<< Updated upstream
 func Fabriquer(j *character.Character, it item.Item) {
 	// For simplicity, just check gold and inventory size
+=======
+
+func Fabriquer(j *Character, it item) {
+	recette, exists := recettes[it.name]
+	if !exists {
+		fmt.Println("Cet objet est indisponible chez le forgeron.")
+		return
+	}
+	if j.Gold < recette.CoutOr {
+		fmt.Println("Vous n'avez pas assez d'or pour fabriquer cet objet.")
+		return
+	}
+	for ressource, qty := range recette.Ressources {
+		if j.Ressources[ressource] < qty {
+			fmt.Printf("Vous n'avez pas assez de %s pour fabriquer cet objet.\n", ressource)
+			return
+		}
+	}
+>>>>>>> Stashed changes
 	if InventairePlein(j) {
 		fmt.Println("Votre inventaire est plein. Vous ne pouvez pas fabriquer cet objet.")
 		return
@@ -32,7 +56,12 @@ func Fabriquer(j *character.Character, it item.Item) {
 	j.Inventaire = append(j.Inventaire, newItem)
 	fmt.Printf("Félicitations ! Vous avez fabriqué un(e) %s !\n", it.Name)
 }
+<<<<<<< Updated upstream
 func MenuForgeron(j *character.Character) {
+=======
+
+func MenuForgeron(j *Character) {
+>>>>>>> Stashed changes
 	var choix int
 	items := []item.Item{
 		item.BasicSword, item.RareSword, item.EpicSword, item.LegendarySword, item.DemoniacSword, item.AngelicSword,
@@ -52,7 +81,53 @@ func MenuForgeron(j *character.Character) {
 		fmt.Println("=====================================")
 		fmt.Print("Choisissez une option: ")
 		fmt.Scan(&choix)
+<<<<<<< Updated upstream
 		if choix == 21 {
+=======
+
+		switch choix {
+		case 1:
+			Fabriquer(j, "Épée basique")
+		case 2:
+			Fabriquer(j, "Épée rare")
+		case 3:
+			Fabriquer(j, "Épée épique")
+		case 4:
+			Fabriquer(j, "Épée légendaire")
+		case 5:
+			Fabriquer(j, "Épée démoniaque")
+		case 6:
+			Fabriquer(j, "Épée angélique")
+		case 7:
+			Fabriquer(j, "Armure rare")
+		case 8:
+			Fabriquer(j, "Armure épique")
+		case 9:
+			Fabriquer(j, "Armure légendaire")
+		case 10:
+			Fabriquer(j, "Armure démoniaque")
+		case 11:
+			Fabriquer(j, "Armure angélique")
+		case 12:
+			Fabriquer(j, "Petite bombe")
+		case 13:
+			Fabriquer(j, "Grosse bombe")
+		case 14:
+			Fabriquer(j, "Bombe nucléaire")
+		case 15:
+			Fabriquer(j, "Baton magique")
+		case 16:
+			Fabriquer(j, "Lame céleste")
+		case 17:
+			Fabriquer(j, "Hache de guerre")
+		case 18:
+			Fabriquer(j, "Épée de chevalier")
+		case 19:
+			Fabriquer(j, "Griffes d'acier")
+		case 20:
+			Fabriquer(j, "Trident infernal")
+		case 21:
+>>>>>>> Stashed changes
 			fmt.Println("Merci de votre visite ! À bientôt.")
 			return
 		}
@@ -63,6 +138,10 @@ func MenuForgeron(j *character.Character) {
 		}
 	}
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 func BonusEquipement(e Equipment) int {
 	bonus := 0
 	if e.Tete == "Casque épique" {
@@ -77,7 +156,11 @@ func BonusEquipement(e Equipment) int {
 	return bonus
 }
 
+<<<<<<< Updated upstream
 func RetirerDeLInventaire(j *character.Character, it character.Item) {
+=======
+func RetirerDeLInventaire(j *Character, it item) {
+>>>>>>> Stashed changes
 	for i, v := range j.Inventaire {
 		if v.Name == it.Name {
 			j.Inventaire = append(j.Inventaire[:i], j.Inventaire[i+1:]...)
@@ -86,18 +169,81 @@ func RetirerDeLInventaire(j *character.Character, it character.Item) {
 	}
 }
 
+<<<<<<< Updated upstream
 func AjouterALInventaire(j *character.Character, it item.Item) {
 	if len(j.Inventaire) < 10 {
 		newItem := character.Item{Name: it.Name, Quantity: it.Quantity, Rarity: it.Rarity}
 		j.Inventaire = append(j.Inventaire, newItem)
+=======
+func AjouterALInventaire(j *Character, it item) {
+	if len(j.Inventaire) < j.MaxInventaire {
+		j.Inventaire = append(j.Inventaire, it)
+>>>>>>> Stashed changes
 	} else {
 		fmt.Println("Votre inventaire est plein.")
 	}
 }
 
+<<<<<<< Updated upstream
 // func UpgradeInventorySlot(j *character.Character) {
 //     // Inventory upgrade logic removed: NbAugmentationsInventaire not defined
 // }
+=======
+func Equiper(j *Character, item string) {
+	var emplacementPrecedent string
+	var oldEquip Equipment
+
+	switch item {
+	case "Casque épique":
+		emplacementPrecedent = j.Equipement.Tete
+		oldEquip = Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds}
+		if j.Equipement.Tete != "" {
+			RetirerDeLInventaire(j, j.Equipement.Tete)
+		}
+		j.Equipement.Tete = item
+
+	case "Armure épique":
+		emplacementPrecedent = j.Equipement.Torse
+		oldEquip = Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds}
+		if j.Equipement.Torse != "" {
+			RetirerDeLInventaire(j, j.Equipement.Torse)
+		}
+		j.Equipement.Torse = item
+
+	case "Bottes épiques":
+		emplacementPrecedent = j.Equipement.Pieds
+		oldEquip = Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds}
+		if j.Equipement.Pieds != "" {
+			RetirerDeLInventaire(j, j.Equipement.Pieds)
+		}
+		j.Equipement.Pieds = item
+	}
+
+	if emplacementPrecedent != "" {
+		AjouterALInventaire(j, emplacementPrecedent)
+		j.MaxHP -= BonusEquipement(oldEquip)
+	}
+	RetirerDeLInventaire(j, item)
+	j.MaxHP += BonusEquipement(Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds})
+
+	fmt.Printf("Vous avez équipé %s !\n", item)
+}
+
+func UpgradeInventorySlot(j *Character) {
+	if j.NbAugmentationsInventaire >= 3 {
+		fmt.Println("Vous avez déjà atteint le nombre maximal d'augmentations d'inventaire (3).")
+		return
+	}
+	if j.Or < 30 {
+		fmt.Println("Vous n'avez pas assez d'or pour acheter une augmentation d'inventaire.")
+		return
+	}
+	j.Or -= 30
+	j.MaxInventaire += 10
+	j.NbAugmentationsInventaire++
+	fmt.Printf("Votre inventaire a été augmenté ! Capacité maximale : %d\n", j.MaxInventaire)
+}
+>>>>>>> Stashed changes
 
 type Monster struct {
 	Nom      string
@@ -139,6 +285,7 @@ func InitDragon() Monster {
 	}
 }
 
+<<<<<<< Updated upstream
 // GetMonsterIntro returns a fitting intro text for each monster
 func GetMonsterIntro(monsterName string) string {
 	switch monsterName {
@@ -156,6 +303,9 @@ func GetMonsterIntro(monsterName string) string {
 }
 
 func GoblinPattern(j *character.Character) {
+=======
+func GoblinPattern(j *Character) {
+>>>>>>> Stashed changes
 	goblin := InitGoblin()
 	tour := 1
 
@@ -183,15 +333,24 @@ func GoblinPattern(j *character.Character) {
 	}
 }
 
+<<<<<<< Updated upstream
 func UtiliserObjet(j *character.Character, m *Monster, objet character.Item) {
 	switch objet.Name {
+=======
+func UtiliserObjet(j *Character, m *Monster, objet string) {
+	switch objet {
+>>>>>>> Stashed changes
 	case "Potion de soin":
 		soin := 20
 		j.HPactuel += soin
 		if j.HPactuel > j.MaxHP {
 			j.HPactuel = j.MaxHP
 		}
+<<<<<<< Updated upstream
 		fmt.Printf("Vous utilisez %s et récupérez %d PV !\n", objet.Name, soin)
+=======
+		fmt.Printf("Vous utilisez %s et récupérez %d PV !\n", objet, soin)
+>>>>>>> Stashed changes
 		RetirerDeLInventaire(j, objet)
 		fmt.Printf("%s : %d/%d PV\n", j.Nom, j.HPactuel, j.MaxHP)
 	default:
@@ -199,7 +358,11 @@ func UtiliserObjet(j *character.Character, m *Monster, objet character.Item) {
 	}
 }
 
+<<<<<<< Updated upstream
 func CharacterTurn(j *character.Character, m *Monster) {
+=======
+func CharTurn(j *Character, m *Monster) {
+>>>>>>> Stashed changes
 	var choix int
 	for {
 		fmt.Println("=====================================")
