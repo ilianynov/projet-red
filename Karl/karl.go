@@ -98,62 +98,6 @@ func AjouterALInventaire(j *character.Character, it item.Item) {
 // func UpgradeInventorySlot(j *character.Character) {
 //     // Inventory upgrade logic removed: NbAugmentationsInventaire not defined
 // }
-=======
-func Equiper(j *Character, item string) {
-	var emplacementPrecedent string
-	var oldEquip Equipment
-
-	switch item {
-	case "Casque épique":
-		emplacementPrecedent = j.Equipement.Tete
-		oldEquip = Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds}
-		if j.Equipement.Tete != "" {
-			RetirerDeLInventaire(j, j.Equipement.Tete)
-		}
-		j.Equipement.Tete = item
-
-	case "Armure épique":
-		emplacementPrecedent = j.Equipement.Torse
-		oldEquip = Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds}
-		if j.Equipement.Torse != "" {
-			RetirerDeLInventaire(j, j.Equipement.Torse)
-		}
-		j.Equipement.Torse = item
-
-	case "Bottes épiques":
-		emplacementPrecedent = j.Equipement.Pieds
-		oldEquip = Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds}
-		if j.Equipement.Pieds != "" {
-			RetirerDeLInventaire(j, j.Equipement.Pieds)
-		}
-		j.Equipement.Pieds = item
-	}
-
-	if emplacementPrecedent != "" {
-		AjouterALInventaire(j, emplacementPrecedent)
-		j.MaxHP -= BonusEquipement(oldEquip)
-	}
-	RetirerDeLInventaire(j, item)
-	j.MaxHP += BonusEquipement(Equipment{Tete: j.Equipement.Tete, Torse: j.Equipement.Torse, Pieds: j.Equipement.Pieds})
-
-	fmt.Printf("Vous avez équipé %s !\n", item)
-}
-
-func UpgradeInventorySlot(j *Character) {
-	if j.NbAugmentationsInventaire >= 3 {
-		fmt.Println("Vous avez déjà atteint le nombre maximal d'augmentations d'inventaire (3).")
-		return
-	}
-	if j.Or < 30 {
-		fmt.Println("Vous n'avez pas assez d'or pour acheter une augmentation d'inventaire.")
-		return
-	}
-	j.Or -= 30
-	j.MaxInventaire += 10
-	j.NbAugmentationsInventaire++
-	fmt.Printf("Votre inventaire a été augmenté ! Capacité maximale : %d\n", j.MaxInventaire)
-}
->>>>>>> Stashed changes
 
 type Monster struct {
 	Nom      string
