@@ -108,7 +108,7 @@ type Monster struct {
 
 func InitGoblin() Monster {
 	return Monster{
-		Nom:      "Gobelin d'entrainement",
+		Nom:      "Gobelins d'entrainement",
 		MaxHP:    40,
 		HPactuel: 40,
 		Attaque:  5,
