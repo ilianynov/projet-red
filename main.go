@@ -6,6 +6,8 @@ import (
 )
 
 var characterChosen bool
+var xp int = 0
+var level int = 1
 
 func main() {
 	level := 1
@@ -166,6 +168,30 @@ func calculateGoldReward(monster karl.Monster) int {
 	}
 }
 
+func calculateXPReward(monster karl.Monster) int {
+	switch monster.Nom {
+	case "Gobelin d'entrainement":
+		return 10
+	case "Ogre":
+		return 20
+	case "Loup-Garou":
+		return 30
+	case "Dragon":
+		return 50
+	default:
+		return 0
+	}
+}
+
+func levelUp() {
+	xpNeeded := level * 100
+	if xp >= xpNeeded {
+		level++
+		xp -= xpNeeded
+		fmt.Printf("\033[34m[Level Up] Félicitations ! Vous êtes maintenant niveau %d !\033[0m\n", level)
+	}
+}
+
 func getMonsterByLevel(level int) karl.Monster {
 	switch {
 	case level < 5:
@@ -179,7 +205,12 @@ func getMonsterByLevel(level int) karl.Monster {
 	}
 }
 
+func chatGoldReward(gold int) {
+	fmt.Printf("\033[35m[Chat] Félicitations ! Vous avez gagné %d pièces d'or !\033[0m\n", gold)
+}
+
 func combatTraining(level int) {
+
 	monster := getMonsterByLevel(level)
 	characterName := "VotrePersonnage"
 	characterHP := 100
@@ -210,7 +241,11 @@ func combatTraining(level int) {
 				fmt.Printf("\033[33m%s a été vaincu !\033[0m\n", monster.Nom)
 				goldReward := calculateGoldReward(monster)
 				gold += goldReward
-				fmt.Printf("\033[33mVous avez gagné %d pièces d'or !\033[0m\n", goldReward)
+				chatGoldReward(goldReward)
+				xpReward := calculateXPReward(monster)
+				xp += xpReward
+				fmt.Printf("\033[35m[XP] Vous avez gagné %d XP !\033[0m\n", xpReward)
+				levelUp()
 				fmt.Printf("\033[33mOr total : %d\033[0m\n", gold)
 				return
 			}
