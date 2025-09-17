@@ -12,9 +12,7 @@ func BuyItem(c *character.Character, it Item) {
 	}
 	if c.Gold >= it.Price {
 		c.Gold -= it.Price
-		// Convert item.Item to character.Item before appending
-		converted := character.Item{Name: it.Name, Quantity: it.Quantity, Rarity: it.Rarity}
-		c.Inventaire = append(c.Inventaire, converted)
+		c.Inventaire = append(c.Inventaire, it)
 		fmt.Printf("Vous avez acheté %s pour %d pièces d'or.\n", it.Name, it.Price)
 	} else {
 		fmt.Println("Pas assez d'or pour acheter cet objet.")
@@ -76,12 +74,8 @@ func CanAddItem(inventaire []Item) bool {
 }
 
 func AddItemToInventory(char *character.Character, newItem Item) {
-	// Convert char.Inventaire to []item.Item for CanAddItem
-	var tempInv []Item
-	for _, v := range char.Inventaire {
-		tempInv = append(tempInv, Item{Name: v.Name, Quantity: v.Quantity, Rarity: v.Rarity, Price: 0})
-	}
-	if CanAddItem(tempInv) {
+	if CanAddItem(char.Inventaire) {
+		// Convert item.Item to character.Item for compatibility
 		converted := character.Item{Name: newItem.Name, Quantity: newItem.Quantity, Rarity: newItem.Rarity}
 		char.Inventaire = append(char.Inventaire, converted)
 	} else {

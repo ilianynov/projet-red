@@ -48,7 +48,7 @@ func MenuForgeron(j *character.Character) {
 
 			fmt.Printf("| %2d. %-20s (%3d Or) |\n", i+1, it.Name, it.Price)
 		}
-		fmt.Println("| 21. Quitter le forgeron           |")
+		fmt.Println("| 21. Quittez le forgeron           |")
 		fmt.Println("=====================================")
 		fmt.Print("Choisissez une option: ")
 		fmt.Scan(&choix)
