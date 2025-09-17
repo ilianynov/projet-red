@@ -219,7 +219,7 @@ func Equiper(j *Character, item string) {
 		j.Equipement.Pieds = item
 	}
 
-	if emplacementPrecedent != "" {
+	if EmplacementPrecedent != "" {
 		AjouterALInventaire(j, emplacementPrecedent)
 		j.MaxHP -= BonusEquipement(oldEquip)
 	}
