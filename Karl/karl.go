@@ -14,10 +14,10 @@ type Equipment struct {
 
 func InventairePlein(j *character.Character) bool {
 	total := len(j.Inventaire)
-	return total >= 10 // Assuming max inventory size is 10
+	return total >= 10 
 }
 func Fabriquer(j *character.Character, it item.Item) {
-	// For simplicity, just check gold and inventory size
+	
 	if InventairePlein(j) {
 		fmt.Println("Votre inventaire est plein. Vous ne pouvez pas fabriquer cet objet.")
 		return
@@ -27,7 +27,7 @@ func Fabriquer(j *character.Character, it item.Item) {
 		return
 	}
 	j.Gold -= it.Price
-	// Convert item.Item to character.Item
+	
 	newItem := character.Item{Name: it.Name, Quantity: it.Quantity, Rarity: it.Rarity}
 	j.Inventaire = append(j.Inventaire, newItem)
 	fmt.Printf("Félicitations ! Vous avez fabriqué un(e) %s !\n", it.Name)
@@ -95,9 +95,6 @@ func AjouterALInventaire(j *character.Character, it item.Item) {
 	}
 }
 
-// func UpgradeInventorySlot(j *character.Character) {
-//     // Inventory upgrade logic removed: NbAugmentationsInventaire not defined
-// }
 
 type Monster struct {
 	Nom      string

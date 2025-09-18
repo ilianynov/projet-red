@@ -76,7 +76,7 @@ func CanAddItem(inventaire []character.Item) bool {
 
 func AddItemToInventory(char *character.Character, newItem Item) {
 	if CanAddItem(char.Inventaire) {
-		// Convert item.Item to character.Item for compatibility
+		
 		converted := character.Item{Name: newItem.Name, Quantity: newItem.Quantity, Rarity: newItem.Rarity}
 		char.Inventaire = append(char.Inventaire, converted)
 	} else {
@@ -91,7 +91,7 @@ type Item struct {
 	Price    int
 }
 
-// Items disponibles chez le forgeron
+
 var BlacksmithItems = []Item{
 	{Name: "Épée de chevalier", Quantity: 1, Rarity: 1, Price: 50},
 	{Name: "Hache de guerre", Quantity: 1, Rarity: 1, Price: 60},
@@ -101,7 +101,7 @@ var BlacksmithItems = []Item{
 	{Name: "Trident infernal", Quantity: 1, Rarity: 2, Price: 150},
 }
 
-// Items disponibles chez le marchand (potions et poisons)
+
 var ShopItems = []Item{
 	{Name: "Potion de santé", Quantity: 1, Rarity: 0, Price: 10},
 	{Name: "Potion de mana", Quantity: 1, Rarity: 0, Price: 12},

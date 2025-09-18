@@ -46,7 +46,7 @@ func main() {
 }
 
 func showMainMenu() {
-	fmt.Println("\n================ RPG ULTIME ================")
+	fmt.Println("\n================ RrdYnovLegende ================")
 	fmt.Println("1. Créer un personnage")
 	fmt.Println("2. Afficher les infos du personnage")
 	fmt.Println("3. Accéder à l'inventaire")
