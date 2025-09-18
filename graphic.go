@@ -1,6 +1,6 @@
 package main
 
-func ShowDeathArt() {
+func ShowDeathArtGraphic() {
 	println(`..--======---:...                                        
                                       ..-+=-:....    ...::-+=..                                     
                                    .:*+.               ..   .-#+.                                   
