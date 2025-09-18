@@ -3,8 +3,11 @@ package main
 import (
 	"fmt"
 	karl "projet_red/Karl"
+	"projet_red/character"
+	"projet_red/item"
 )
 
+var player character.Character
 var characterChosen bool
 var xp int = 0
 var level int = 1
@@ -79,78 +82,65 @@ func createCharacter() {
 	fmt.Println("\\_______________________________________________________________/")
 
 	var classChoice int
+	var classe string
 	for {
 		fmt.Print("Choisissez votre classe (1-6) : ")
 		fmt.Scan(&classChoice)
 		switch classChoice {
 		case 1:
+			classe = "Humain"
 			fmt.Println("Vous avez choisi : Humain")
 			characterChosen = true
-			return
+			break
 		case 2:
+			classe = "Loup-garou"
 			fmt.Println("Vous avez choisi : Loup-garou")
 			characterChosen = true
-			return
+			break
 		case 3:
+			classe = "Hybride"
 			fmt.Println("Vous avez choisi : Hybride")
 			characterChosen = true
-			return
+			break
 		case 4:
+			classe = "Nain"
 			fmt.Println("Vous avez choisi : Nain")
 			characterChosen = true
-			return
+			break
 		case 5:
+			classe = "Ange"
 			fmt.Println("Vous avez choisi : Ange")
 			characterChosen = true
-			return
+			break
 		case 6:
+			classe = "Démon"
 			fmt.Println("Vous avez choisi : Démon")
 			characterChosen = true
-			return
+			break
 		default:
 			fmt.Println("Choix invalide. Veuillez réessayer.")
 		}
+		if characterChosen {
+			break
+		}
 	}
+	player = character.InitCharacter(name, classe, 1, 100, 100, []character.Item{})
 }
 
 func displayCharacterInfo() {
-	fmt.Println("Affichage des infos du personnage...")
+	character.DisplayInfo(&player)
 }
 
 func accessInventory() {
-	fmt.Println("Accès à l'inventaire...")
+	character.AccessInventory(&player)
 }
 
 func shopMenu() {
-	fmt.Println("================ BOUTIQUE =================")
-	fmt.Println("Or actuel : <montant>")
-	fmt.Println("-------------------------------------------")
-	fmt.Println(" 1. <item> <prix> or  [Rareté: <niveau>]")
-	fmt.Println(" ...")
-	fmt.Println("-------------------------------------------")
-	fmt.Println(" 0. Quitter")
+	item.ShopMenu(&player)
 }
 
 func blacksmithMenu() {
-	fmt.Println("=====================================")
-	fmt.Println("|        Bienvenue chez le Forgeron !         |")
-	fmt.Println("=====================================")
-	fmt.Println("| 1. Épée basique (10 Or)           |")
-	fmt.Println("| 2. Épée rare (20 Or)              |")
-	fmt.Println("| 3. Épée épique (25 Or)            |")
-	fmt.Println("| 4. Épée légendaire (40 Or)        |")
-	fmt.Println("| 5. Épée démoniaque (60 Or)        |")
-	fmt.Println("| 6. Épée angélique (60 Or)         |")
-	fmt.Println("| 7. Armure rare (30 Or)            |")
-	fmt.Println("| 8. Armure épique (50 Or)          |")
-	fmt.Println("| 9. Armure légendaire (70 Or)      |")
-	fmt.Println("| 10. Armure démoniaque (90 Or)     |")
-	fmt.Println("| 11. Armure angélique (90 Or)      |")
-	fmt.Println("| 12. Petite bombe (30 Or)          |")
-	fmt.Println("| 13. Grosse bombe (50 Or)          |")
-	fmt.Println("| 14. Bombe nucléaire (100 Or)      |")
-	fmt.Println("| 15. Quitter                       |")
-	fmt.Println("=====================================")
+	fmt.Println("Fonctionnalité forgeron à compléter : achat et amélioration d'objets.")
 }
 
 func calculateGoldReward(monster karl.Monster) int {
@@ -210,11 +200,10 @@ func chatGoldReward(gold int) {
 }
 
 func combatTraining(level int) {
-
 	monster := getMonsterByLevel(level)
-	characterName := "VotrePersonnage"
-	characterHP := 100
-	gold := 0
+	characterName := player.Nom
+	characterHP := player.HPactuel
+	gold := player.Gold
 
 	fmt.Printf("\033[36m=====================================\033[0m\n")
 	fmt.Printf("\033[33m| Combat entre %s et %s !\033[0m\n", characterName, monster.Nom)
@@ -233,7 +222,6 @@ func combatTraining(level int) {
 		fmt.Scan(&choice)
 		switch choice {
 		case 1:
-
 			damage := 15
 			monster.HPactuel -= damage
 			fmt.Printf("\033[32m%s attaque %s et inflige %d dégâts !\033[0m\n", characterName, monster.Nom, damage)
@@ -241,6 +229,7 @@ func combatTraining(level int) {
 				fmt.Printf("\033[33m%s a été vaincu !\033[0m\n", monster.Nom)
 				goldReward := calculateGoldReward(monster)
 				gold += goldReward
+				player.Gold = gold
 				chatGoldReward(goldReward)
 				xpReward := calculateXPReward(monster)
 				xp += xpReward
@@ -252,6 +241,7 @@ func combatTraining(level int) {
 
 			fmt.Printf("\033[31m%s contre-attaque et inflige %d dégâts !\033[0m\n", monster.Nom, monster.Attaque)
 			characterHP -= monster.Attaque
+			player.HPactuel = characterHP
 			if characterHP <= 0 {
 				fmt.Printf("\033[31m%s a été vaincu par %s !\033[0m\n", characterName, monster.Nom)
 				return
