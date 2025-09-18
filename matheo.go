@@ -27,5 +27,16 @@ func IsDead(c *character.Character) bool {
 }
 
 func ShowDeathArt() {
-	fmt.Println("      ______\n   .-        -.\n  /            \\n |,  .-.  .-.  ,|\n | )(_o/  \\o_)( |\n |/     /\\     \\|\n (_     ^^     _)\n  \\__|IIIIII|__/\n   | \\IIIIII/ |\n   \\          /\n    `--------`\n")
+	fmt.Println(`      ______
+	   .-        -.
+	  /            \
+	 |,  .-.  .-.  ,|
+	 | )(_o/  \o_)( |
+	 |/     /\     \|
+	 (_     ^^     _)
+	  \__|IIIIII|__/
+	   | \IIIIII/ |
+	   \          /
+		'--------'
+	`)
 }

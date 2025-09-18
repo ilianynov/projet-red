@@ -12,7 +12,8 @@ func BuyItem(c *character.Character, it Item) {
 	}
 	if c.Gold >= it.Price {
 		c.Gold -= it.Price
-		c.Inventaire = append(c.Inventaire, it)
+		converted := character.Item{Name: it.Name, Quantity: it.Quantity, Rarity: it.Rarity}
+		c.Inventaire = append(c.Inventaire, converted)
 		fmt.Printf("Vous avez acheté %s pour %d pièces d'or.\n", it.Name, it.Price)
 	} else {
 		fmt.Println("Pas assez d'or pour acheter cet objet.")
@@ -69,7 +70,7 @@ var SpellBookFireball = Item{Name: "Livre de Sort : Boule de Feu", Quantity: 1, 
 var SpellBookIce = Item{Name: "Livre de Sort : Éclair de Glace", Quantity: 1, Rarity: 2, Price: 25}
 var SpellBookHeal = Item{Name: "Livre de Sort : Soin Rapide", Quantity: 1, Rarity: 2, Price: 30}
 
-func CanAddItem(inventaire []Item) bool {
+func CanAddItem(inventaire []character.Item) bool {
 	return len(inventaire) < 10
 }
 
