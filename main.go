@@ -119,6 +119,7 @@ func createCharacter() {
 			break
 		default:
 			fmt.Println("Choix invalide. Veuillez réessayer.")
+			continue
 		}
 		if characterChosen {
 			break
@@ -200,16 +201,14 @@ func levelUp() {
 }
 
 func getMonsterByLevel(level int) karl.Monster {
-	switch level {
-	case 1:
-		return InitGoblin()
-	case 2:
-		return InitOgre()
-	case 3:
-		return InitLoupGarou()
-	default:
+	if player.Gold >= 30 {
 		return InitDragon()
+	} else if player.Gold >= 20 {
+		return InitLoupGarou()
+	} else if player.Gold >= 10 {
+		return InitOgre()
 	}
+	return InitGoblin()
 }
 
 func chatGoldReward(gold int) {
