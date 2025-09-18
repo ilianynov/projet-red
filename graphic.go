@@ -1,7 +1,7 @@
 package main
 
 func ShowDeathArtGraphic() {
-	println(`..--======---:...                                        
+	println(                               `..--======---:...                                        
                                       ..-+=-:....    ...::-+=..                                     
                                    .:*+.               ..   .-#+.                                   
                                 .:+=...                     -...-*-.                                
