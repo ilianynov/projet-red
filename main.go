@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	karl "projet_red/Karl"
 	"projet_red/character"
 	"projet_red/graphic"
 	"projet_red/item"
+	"time"
 )
 
 var player character.Character
@@ -34,8 +36,6 @@ func main() {
 			combatTraining(level)
 		case 7:
 			spellBooksMenu()
-		case 8:
-			specialMenu()
 		case 0:
 			fmt.Println("Merci d'avoir joué !")
 			return
@@ -54,7 +54,6 @@ func showMainMenu() {
 	fmt.Println("5. Forgeron")
 	fmt.Println("6. Entrainement (Combat)")
 	fmt.Println("7. Livres de sorts")
-	fmt.Println("8. Spécial (Potion/Poison)")
 	fmt.Println("0. Quitter")
 	fmt.Println("============================================")
 	fmt.Print("Votre choix : ")
@@ -201,15 +200,15 @@ func levelUp() {
 	}
 }
 
-func getMonsterByLevel(level int) karl.Monster {
-	if player.Gold >= 30 {
-		return InitDragon()
-	} else if player.Gold >= 20 {
-		return InitLoupGarou()
-	} else if player.Gold >= 10 {
-		return InitOgre()
+func getRandomMonster() karl.Monster {
+	monsters := []karl.Monster{
+		InitGoblin(),
+		InitOgre(),
+		InitLoupGarou(),
+		InitDragon(),
 	}
-	return InitGoblin()
+	rand.Seed(time.Now().UnixNano())
+	return monsters[rand.Intn(len(monsters))]
 }
 
 func chatGoldReward(gold int) {
@@ -217,7 +216,7 @@ func chatGoldReward(gold int) {
 }
 
 func combatTraining(level int) {
-	monster := getMonsterByLevel(level)
+	monster := getRandomMonster()
 	characterName := player.Nom
 	characterHP := player.HPactuel
 	gold := player.Gold
@@ -231,6 +230,7 @@ func combatTraining(level int) {
 		fmt.Printf("\033[32m%s : %d PV\033[0m\n", characterName, characterHP)
 		fmt.Println("| 1. Attaquer")
 		fmt.Println("| 2. Inventaire")
+		fmt.Println("| 3. Sorts")
 		fmt.Println("| 0. Quitter le combat")
 		fmt.Printf("\033[36m=====================================\033[0m\n")
 		fmt.Print("Votre choix : ")
@@ -268,6 +268,8 @@ func combatTraining(level int) {
 		case 2:
 			fmt.Println("Ouverture de l'inventaire...")
 			accessInventory()
+		case 3:
+			useSpell(&monster, &characterHP, &player)
 		case 0:
 			fmt.Println("Vous quittez le combat.")
 			return
@@ -300,10 +302,6 @@ func spellBooksMenu() {
 	default:
 		fmt.Println("Choix invalide.")
 	}
-}
-
-func specialMenu() {
-	fmt.Println("Menu spécial...")
 }
 
 func useSpell(monster *karl.Monster, characterHP *int, player *character.Character) {
