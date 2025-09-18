@@ -28,8 +28,8 @@ func initCharacter(name, class string, level, maxHP, currentHP int, inventory []
 }
 
 func displayInfo(c Character) {
-	fmt.Printf("Nom: %s\nClasse: %s\nNiveau: %d\nHP: %d/%d\nInventaire: %v\n",
-		c.Name, c.Class, c.Level, c.CurrentHP, c.MaxHP, c.Inventory)
+	fmt.Printf("Nom: %s\nClasse: %s\nNiveau: %d\nHP: %d/%d\n",
+		c.Name, c.Class, c.Level, c.CurrentHP, c.MaxHP)
 }
 
 func accessInventory(c *Character) {

@@ -4,8 +4,8 @@ import "fmt"
 
 // Affiche les infos du personnage
 func DisplayInfo(c *Character) {
-	fmt.Printf("Nom: %s\nClasse: %s\nNiveau: %d\nHP: %d/%d\nInventaire: %v\nCompétences: %v\nOr: %d\n",
-		c.Nom, c.Classe, c.Niveau, c.HPactuel, c.MaxHP, c.Inventaire, c.Skill, c.Gold)
+	fmt.Printf("Nom: %s\nClasse: %s\nNiveau: %d\nHP: %d/%d\nCompétences: %v\nOr: %d\n",
+		c.Nom, c.Classe, c.Niveau, c.HPactuel, c.MaxHP, c.Skill, c.Gold)
 }
 
 // Affiche l'inventaire du personnage
