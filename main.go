@@ -217,103 +217,61 @@ func chatGoldReward(gold int) {
 }
 
 func combatTraining(level int) {
-	currentLevel := level
+	monster := getMonsterByLevel(level)
+	characterName := player.Nom
+	characterHP := player.HPactuel
+	gold := player.Gold
+
+	fmt.Printf("\033[36m=====================================\033[0m\n")
+	fmt.Printf("\033[33m| Combat entre %s et %s !\033[0m\n", characterName, monster.Nom)
+	fmt.Printf("\033[36m=====================================\033[0m\n")
+
 	for {
-		monster := getMonsterByLevel(currentLevel)
-		characterName := player.Nom
-		characterHP := player.HPactuel
-		gold := player.Gold
-
+		fmt.Printf("\033[31m%s : %d/%d PV\033[0m\n", monster.Nom, monster.HPactuel, monster.MaxHP)
+		fmt.Printf("\033[32m%s : %d PV\033[0m\n", characterName, characterHP)
+		fmt.Println("| 1. Attaquer")
+		fmt.Println("| 2. Inventaire")
+		fmt.Println("| 0. Quitter le combat")
 		fmt.Printf("\033[36m=====================================\033[0m\n")
-		fmt.Printf("\033[33m| Combat entre %s et %s !\033[0m\n", characterName, monster.Nom)
-		fmt.Printf("\033[36m=====================================\033[0m\n")
-
-		for {
-			fmt.Printf("\033[31m%s : %d/%d PV\033[0m\n", monster.Nom, monster.HPactuel, monster.MaxHP)
-			fmt.Printf("\033[32m%s : %d PV\033[0m\n", characterName, characterHP)
-			fmt.Println("| 1. Attaquer")
-			fmt.Println("| 2. Inventaire")
-			fmt.Println("| 3. Sort")
-			fmt.Println("| 0. Quitter le combat")
-			fmt.Printf("\033[36m=====================================\033[0m\n")
-			fmt.Print("Votre choix : ")
-
-			var choice int
-			fmt.Scan(&choice)
-			switch choice {
-			case 1:
-				damage := 15
-				monster.HPactuel -= damage
-				fmt.Printf("\033[32m%s attaque %s et inflige %d dégâts !\033[0m\n", characterName, monster.Nom, damage)
-				if monster.HPactuel <= 0 {
-					fmt.Printf("\033[33m%s a été vaincu !\033[0m\n", monster.Nom)
-					goldReward := calculateGoldReward(monster)
-					gold += goldReward
-					player.Gold = gold
-					chatGoldReward(goldReward)
-					xpReward := calculateXPReward(monster)
-					xp += xpReward
-					fmt.Printf("\033[35m[XP] Vous avez gagné %d XP !\033[0m\n", xpReward)
-					levelUp()
-					fmt.Printf("\033[33mOr total : %d\033[0m\n", gold)
-					break
-				}
-
-				fmt.Printf("\033[31m%s contre-attaque et inflige %d dégâts !\033[0m\n", monster.Nom, monster.Attaque)
-				characterHP -= monster.Attaque
-				player.HPactuel = characterHP
-				if characterHP <= 0 {
-					fmt.Printf("\033[31m%s a été vaincu par %s !\033[0m\n", characterName, monster.Nom)
-					return
-				}
-			case 2:
-				fmt.Println("Ouverture de l'inventaire...")
-				accessInventory()
-			case 3:
-				useSpell(&monster, &characterHP, &player)
-				if monster.HPactuel <= 0 {
-					fmt.Printf("\033[33m%s a été vaincu !\033[0m\n", monster.Nom)
-					goldReward := calculateGoldReward(monster)
-					player.Gold += goldReward
-					chatGoldReward(goldReward)
-					xpReward := calculateXPReward(monster)
-					xp += xpReward
-					fmt.Printf("\033[35m[XP] Vous avez gagné %d XP !\033[0m\n", xpReward)
-					levelUp()
-					fmt.Printf("\033[33mOr total : %d\033[0m\n", player.Gold)
-					break
-				}
-				fmt.Printf("\033[31m%s contre-attaque et inflige %d dégâts !\033[0m\n", monster.Nom, monster.Attaque)
-				characterHP -= monster.Attaque
-				player.HPactuel = characterHP
-				if characterHP <= 0 {
-					fmt.Printf("\033[31m%s a été vaincu par %s !\033[0m\n", characterName, monster.Nom)
-					return
-				}
-			case 0:
-				fmt.Println("Vous quittez le combat.")
-				return
-			default:
-				fmt.Println("Choix invalide. Veuillez réessayer.")
-			}
-			if monster.HPactuel <= 0 {
-				break
-			}
-		}
-
-		// Proposer d'affronter le prochain monstre
-		fmt.Println("Voulez-vous affronter le prochain monstre ?")
-		fmt.Println("1. Oui")
-		fmt.Println("0. Non (retour menu principal)")
 		fmt.Print("Votre choix : ")
-		var suite int
-		fmt.Scan(&suite)
-		if suite == 1 {
-			currentLevel++
-			continue
-		} else {
-			fmt.Println("Retour au menu principal.")
+
+		var choice int
+		fmt.Scan(&choice)
+		switch choice {
+		case 1:
+			damage := 15
+			monster.HPactuel -= damage
+			fmt.Printf("\033[32m%s attaque %s et inflige %d dégâts !\033[0m\n", characterName, monster.Nom, damage)
+			if monster.HPactuel <= 0 {
+				fmt.Printf("\033[33m%s a été vaincu !\033[0m\n", monster.Nom)
+				goldReward := calculateGoldReward(monster)
+				gold += goldReward
+				player.Gold = gold
+				chatGoldReward(goldReward)
+				xpReward := calculateXPReward(monster)
+				xp += xpReward
+				fmt.Printf("\033[35m[XP] Vous avez gagné %d XP !\033[0m\n", xpReward)
+				levelUp()
+				fmt.Printf("\033[33mOr total : %d\033[0m\n", gold)
+				return
+			}
+
+			fmt.Printf("\033[31m%s contre-attaque et inflige %d dégâts !\033[0m\n", monster.Nom, monster.Attaque)
+			characterHP -= monster.Attaque
+			player.HPactuel = characterHP
+			if characterHP <= 0 {
+				fmt.Println("Vous êtes mort !")
+				fmt.Printf("\033[31m%s a été vaincu par %s !\033[0m\n", characterName, monster.Nom)
+				return
+			}
+		case 2:
+			fmt.Println("Ouverture de l'inventaire...")
+			accessInventory()
+		case 0:
+			fmt.Println("Vous quittez le combat.")
 			return
+		default:
+			fmt.Println("Choix invalide. Veuillez réessayer.")
 		}
 	}
 }
