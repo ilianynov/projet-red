@@ -91,6 +91,24 @@ type Item struct {
 	Price    int
 }
 
+// Items disponibles chez le forgeron
+var BlacksmithItems = []Item{
+	{Name: "Épée de chevalier", Quantity: 1, Rarity: 1, Price: 50},
+	{Name: "Hache de guerre", Quantity: 1, Rarity: 1, Price: 60},
+	{Name: "Lame céleste", Quantity: 1, Rarity: 2, Price: 120},
+	{Name: "Baton Magique", Quantity: 1, Rarity: 1, Price: 80},
+	{Name: "Griffes d'acier", Quantity: 1, Rarity: 1, Price: 70},
+	{Name: "Trident infernal", Quantity: 1, Rarity: 2, Price: 150},
+}
+
+// Items disponibles chez le marchand (potions et poisons)
+var ShopItems = []Item{
+	{Name: "Potion de santé", Quantity: 1, Rarity: 0, Price: 10},
+	{Name: "Potion de mana", Quantity: 1, Rarity: 0, Price: 12},
+	{Name: "Petit poison", Quantity: 1, Rarity: 0, Price: 15},
+	{Name: "Grand poison", Quantity: 1, Rarity: 1, Price: 30},
+}
+
 var Gold = Item{Name: "Or", Quantity: 1, Rarity: 0, Price: 1}
 var MagicStaff = Item{Name: "Baton Magique", Quantity: 1, Rarity: 0, Price: 5}
 var CelestialBlade = Item{Name: "Lame céleste", Quantity: 1, Rarity: 0, Price: 5}

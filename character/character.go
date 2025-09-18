@@ -30,7 +30,8 @@ type Character struct {
 	HPactuel   int
 	Inventaire []Item
 	Skill      []string
-	Gold       int // pièces d'or
+	Gold       int
+	XP         int
 }
 
 var MagicStaff = Item{Name: "Baton Magique", Quantity: 1, Rarity: 0}

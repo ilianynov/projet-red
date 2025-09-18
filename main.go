@@ -136,11 +136,28 @@ func accessInventory() {
 }
 
 func shopMenu() {
-	item.ShopMenu(&player)
+	fmt.Println("Bienvenue chez le marchand !")
+	for i, it := range item.ShopItems {
+		fmt.Printf("%d. %s (Prix : %d or)\n", i+1, it.Name, it.Price)
+	}
+	fmt.Println("0. Quitter")
+	fmt.Print("Votre choix : ")
+	var choix int
+	fmt.Scan(&choix)
+	if choix > 0 && choix <= len(item.ShopItems) {
+		itemAchat := item.ShopItems[choix-1]
+		if player.Gold >= itemAchat.Price {
+			player.Gold -= itemAchat.Price
+			player.Inventaire = append(player.Inventaire, character.Item{Name: itemAchat.Name, Quantity: 1, Rarity: itemAchat.Rarity})
+			fmt.Printf("Vous avez acheté : %s\n", itemAchat.Name)
+		} else {
+			fmt.Println("Vous n'avez pas assez d'or.")
+		}
+	}
 }
 
 func blacksmithMenu() {
-	fmt.Println("Fonctionnalité forgeron à compléter : achat et amélioration d'objets.")
+	karl.MenuForgeron(&player)
 }
 
 func calculateGoldReward(monster karl.Monster) int {
@@ -214,6 +231,7 @@ func combatTraining(level int) {
 		fmt.Printf("\033[32m%s : %d PV\033[0m\n", characterName, characterHP)
 		fmt.Println("| 1. Attaquer")
 		fmt.Println("| 2. Inventaire")
+		fmt.Println("| 3. Sort")
 		fmt.Println("| 0. Quitter le combat")
 		fmt.Printf("\033[36m=====================================\033[0m\n")
 		fmt.Print("Votre choix : ")
@@ -249,6 +267,27 @@ func combatTraining(level int) {
 		case 2:
 			fmt.Println("Ouverture de l'inventaire...")
 			accessInventory()
+		case 3:
+			useSpell(&monster, &characterHP, &player)
+			if monster.HPactuel <= 0 {
+				fmt.Printf("\033[33m%s a été vaincu !\033[0m\n", monster.Nom)
+				goldReward := calculateGoldReward(monster)
+				player.Gold += goldReward
+				chatGoldReward(goldReward)
+				xpReward := calculateXPReward(monster)
+				xp += xpReward
+				fmt.Printf("\033[35m[XP] Vous avez gagné %d XP !\033[0m\n", xpReward)
+				levelUp()
+				fmt.Printf("\033[33mOr total : %d\033[0m\n", player.Gold)
+				return
+			}
+			fmt.Printf("\033[31m%s contre-attaque et inflige %d dégâts !\033[0m\n", monster.Nom, monster.Attaque)
+			characterHP -= monster.Attaque
+			player.HPactuel = characterHP
+			if characterHP <= 0 {
+				fmt.Printf("\033[31m%s a été vaincu par %s !\033[0m\n", characterName, monster.Nom)
+				return
+			}
 		case 0:
 			fmt.Println("Vous quittez le combat.")
 			return
@@ -259,11 +298,62 @@ func combatTraining(level int) {
 }
 
 func spellBooksMenu() {
-	fmt.Println("Menu des livres de sorts...")
+	fmt.Println("========== Livres de sorts ==========")
+	fmt.Println("Voici les sorts disponibles :")
+	fmt.Println("1. Coup de poing : Inflige 8 dégâts à l'adversaire.")
+	fmt.Println("2. Boule de feu : Inflige 18 dégâts à l'adversaire.")
+	fmt.Println("3. Soin : Rend 15 PV.")
+	fmt.Println("0. Retour")
+	fmt.Print("Entrez le numéro d'un sort pour lire sa description, ou 0 pour revenir : ")
+
+	var choix int
+	fmt.Scan(&choix)
+	switch choix {
+	case 1:
+		fmt.Println("Coup de poing : Un sort simple qui inflige 8 dégâts à l'adversaire.")
+	case 2:
+		fmt.Println("Boule de feu : Un sort puissant qui inflige 18 dégâts à l'adversaire.")
+	case 3:
+		fmt.Println("Soin : Un sort qui rend 15 points de vie à votre personnage.")
+	case 0:
+		fmt.Println("Retour au menu principal.")
+	default:
+		fmt.Println("Choix invalide.")
+	}
 }
 
 func specialMenu() {
 	fmt.Println("Menu spécial...")
+}
+
+func useSpell(monster *karl.Monster, characterHP *int, player *character.Character) {
+	fmt.Println("========== Livres de sorts ==========")
+	fmt.Println("1. Coup de poing : Inflige 8 dégâts à l'adversaire.")
+	fmt.Println("2. Boule de feu : Inflige 18 dégâts à l'adversaire.")
+	fmt.Println("3. Soin : Rend 15 PV.")
+	fmt.Println("0. Annuler")
+	fmt.Print("Choisissez un sort : ")
+	var choix int
+	fmt.Scan(&choix)
+	switch choix {
+	case 1:
+		monster.HPactuel -= 8
+		fmt.Printf("Vous lancez Coup de poing et infligez 8 dégâts à %s !\n", monster.Nom)
+	case 2:
+		monster.HPactuel -= 18
+		fmt.Printf("Vous lancez Boule de feu et infligez 18 dégâts à %s !\n", monster.Nom)
+	case 3:
+		*characterHP += 15
+		if *characterHP > player.MaxHP {
+			*characterHP = player.MaxHP
+		}
+		player.HPactuel = *characterHP
+		fmt.Printf("Vous lancez Soin et récupérez 15 PV !\n")
+	case 0:
+		fmt.Println("Sort annulé.")
+	default:
+		fmt.Println("Choix invalide.")
+	}
 }
 
 func InitGoblin() karl.Monster {
