@@ -4,6 +4,7 @@ import (
 	"fmt"
 	karl "projet_red/Karl"
 	"projet_red/character"
+	"projet_red/graphic"
 	"projet_red/item"
 )
 
@@ -259,6 +260,7 @@ func combatTraining(level int) {
 			characterHP -= monster.Attaque
 			player.HPactuel = characterHP
 			if characterHP <= 0 {
+				graphic.ShowDeathArt()
 				fmt.Println("Vous êtes mort !")
 				fmt.Printf("\033[31m%s a été vaincu par %s !\033[0m\n", characterName, monster.Nom)
 				return

@@ -37,7 +37,7 @@ func MenuForgeron(j *character.Character) {
 	items := []item.Item{
 		item.BasicSword, item.RareSword, item.EpicSword, item.LegendarySword, item.DemoniacSword, item.AngelicSword,
 		item.RareArmor, item.EpicArmor, item.LegendaryArmor, item.DemoniacArmor, item.AngelicArmor,
-		item.SmallBomb, item.BigBomb, item.Nuke,
+		item.SmallBomb, item.BigBomb, item.Nuke, item.MagicStaff, item.CelestialBlade, item.BattleAxe, item.KnightsSword, item.SteelClaws, item.InfernalTrident,
 	}
 	for {
 		fmt.Println("=====================================")
@@ -95,6 +95,10 @@ func AjouterALInventaire(j *character.Character, it item.Item) {
 	}
 }
 
+// func UpgradeInventorySlot(j *character.Character) {
+//     // Inventory upgrade logic removed: NbAugmentationsInventaire not defined
+// }
+
 type Monster struct {
 	Nom      string
 	MaxHP    int
@@ -104,7 +108,7 @@ type Monster struct {
 
 func InitGoblin() Monster {
 	return Monster{
-		Nom:      "Gobelin d'entrainement",
+		Nom:      "Gobelins d'entrainement",
 		MaxHP:    40,
 		HPactuel: 40,
 		Attaque:  5,
@@ -203,7 +207,6 @@ func CharacterTurn(j *character.Character, m *Monster) {
 		fmt.Println("=====================================")
 		fmt.Println("| 1. Attaquer")
 		fmt.Println("| 2. Inventaire")
-		fmt.Println("| 3. Sorts")
 		fmt.Println("=====================================")
 		fmt.Print("Votre choix : ")
 		fmt.Scan(&choix)
@@ -217,13 +220,6 @@ func CharacterTurn(j *character.Character, m *Monster) {
 			}
 			fmt.Printf("%s utilise Attaque basique et inflige %d dégâts à %s\n", j.Nom, degats, m.Nom)
 			fmt.Printf("%s : %d/%d PV\n", m.Nom, m.HPactuel, m.MaxHP)
-			if m.HPactuel == 0 {
-				fmt.Printf("Vous avez vaincu %s !\n", m.Nom)
-				gold, xp := GetRewards(*m)
-				j.Gold += gold
-				j.XP += xp
-				fmt.Printf("Vous gagnez %d or et %d XP !\n", gold, xp)
-			}
 			return // Fin du tour du joueur
 		case 2:
 			if len(j.Inventaire) == 0 {
@@ -232,7 +228,7 @@ func CharacterTurn(j *character.Character, m *Monster) {
 			}
 			fmt.Println("Inventaire :")
 			for i, obj := range j.Inventaire {
-				fmt.Printf("%d. %s\n", i+1, obj)
+				fmt.Printf("%d. %s\n", i+1, obj.Name)
 			}
 			fmt.Print("Choisissez un objet à utiliser (0 pour annuler) : ")
 			var choixObj int
@@ -247,50 +243,8 @@ func CharacterTurn(j *character.Character, m *Monster) {
 				fmt.Println("Choix invalide.")
 				continue
 			}
-		case 3:
-			useSpell(j, m)
-			if m.HPactuel == 0 {
-				fmt.Printf("Vous avez vaincu %s !\n", m.Nom)
-				gold, xp := GetRewards(*m)
-				j.Gold += gold
-				j.XP += xp
-				fmt.Printf("Vous gagnez %d or et %d XP !\n", gold, xp)
-			}
-			return // Fin du tour du joueur après un sort
 		default:
 			fmt.Println("Choix invalide.")
 		}
 	}
-}
-
-func useSpell(j *character.Character, m *Monster) {
-	panic("unimplemented")
-}
-
-func GetRewards(monster Monster) (gold int, xp int) {
-	switch monster.Nom {
-	case "Gobelin d'entrainement":
-		return 10, 15
-	case "Ogre":
-		return 20, 30
-	case "Loup-Garou":
-		return 35, 50
-	case "Dragon":
-		return 100, 150
-	default:
-		return 5, 5
-	}
-}
-
-type Spell struct {
-	Nom         string
-	Description string
-	Degats      int
-	Soin        int
-}
-
-var Spells = []Spell{
-	{"Coup de poing", "Inflige 8 dégâts à l'adversaire.", 8, 0},
-	{"Boule de feu", "Inflige 18 dégâts à l'adversaire.", 18, 0},
-	{"Soin", "Rend 15 PV.", 0, 15},
 }
