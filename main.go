@@ -205,7 +205,9 @@ func getRandomMonster() karl.Monster {
 		InitGoblin(),
 		InitOgre(),
 		InitLoupGarou(),
-		InitDragon(),
+	}
+	if player.Niveau >= 10 {
+		monsters = append(monsters, InitDragon())
 	}
 	rand.Seed(time.Now().UnixNano())
 	return monsters[rand.Intn(len(monsters))]
@@ -347,6 +349,10 @@ func useSpell(monster *karl.Monster, characterHP *int, player *character.Charact
 		}
 		player.HPactuel = *characterHP
 		fmt.Printf("Vous lancez Soin et récupérez 15 PV !\n")
+		// Le monstre attaque après le soin
+		fmt.Printf("\033[31m%s profite de votre soin pour attaquer et inflige %d dégâts !\033[0m\n", monster.Nom, monster.Attaque)
+		*characterHP -= monster.Attaque
+		player.HPactuel = *characterHP
 	case 0:
 		fmt.Println("Sort annulé.")
 	default:
