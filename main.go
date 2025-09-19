@@ -215,6 +215,21 @@ func chatGoldReward(gold int) {
 	fmt.Printf("\033[35m[Chat] Félicitations ! Vous avez gagné %d pièces d'or !\033[0m\n", gold)
 }
 
+func getMonsterMaterial(monster karl.Monster) string {
+	switch monster.Nom {
+	case "Gobelin d'entrainement":
+		return "Peau de gobelin"
+	case "Ogre":
+		return "Dent d'ogre"
+	case "Loup-Garou":
+		return "Griffe de loup-garou"
+	case "Dragon":
+		return "Écaille de dragon"
+	default:
+		return "Inconnu"
+	}
+}
+
 func combatTraining(level int) {
 	monster := getRandomMonster()
 	characterName := player.Nom
@@ -253,6 +268,10 @@ func combatTraining(level int) {
 				fmt.Printf("\033[35m[XP] Vous avez gagné %d XP !\033[0m\n", xpReward)
 				levelUp()
 				fmt.Printf("\033[33mOr total : %d\033[0m\n", gold)
+				material := getMonsterMaterial(monster)
+				player.Inventaire = append(player.Inventaire, character.Item{Name: material, Quantity: 1, Rarity: 1})
+				fmt.Printf("\033[36mVous avez obtenu : %s\033[0m\n", material)
+				player.HPactuel = player.MaxHP // Reset la vie du personnage après victoire
 				return
 			}
 
@@ -263,6 +282,7 @@ func combatTraining(level int) {
 				graphic.ShowDeathArt()
 				fmt.Println("Vous êtes mort !")
 				fmt.Printf("\033[31m%s a été vaincu par %s !\033[0m\n", characterName, monster.Nom)
+				player.HPactuel = player.MaxHP // Reset la vie du personnage après défaite
 				return
 			}
 		case 2:
